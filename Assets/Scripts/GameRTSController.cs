@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEditorInternal;
@@ -42,6 +43,9 @@ public class GameRTSController : MonoBehaviour
         playerUnits = player.getUnits();
 
     }
+
+   
+
     void Update()
 
     {
@@ -126,7 +130,7 @@ public class GameRTSController : MonoBehaviour
 
             foreach (GameObject unit in selectedUnitsList)
             {
-                co = StartCoroutine(MoveUnit(unit, destination));
+                unit.GetComponent<Villager>().TakeAction();
             }
 
         }
@@ -186,21 +190,7 @@ public class GameRTSController : MonoBehaviour
         selectionBox.anchoredPosition = startUIPosition + new Vector2(width / 2, height / 2);
     }
 
-    IEnumerator MoveUnit(GameObject unit, Vector3 destination)
-    {
-        while (destination.x != unit.transform.position.x || destination.z != unit.transform.position.z)
-        {
-
-
-            float step = 5f * Time.deltaTime;
-            unit.transform.position = Vector3.MoveTowards(unit.transform.position, destination, step);
-            yield return null;
-
-
-        }
-
-
-    }
+    
 
     public void SpawnVillager()
     {
