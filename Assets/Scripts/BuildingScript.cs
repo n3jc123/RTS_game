@@ -10,11 +10,15 @@ public class BuildingScript : MonoBehaviour
 
     public bool isBuilt = false;
 
+    public bool isBeingBuilt = false;
+
     private int health;
 
     public bool isClicked = false;
 
-    public GameObject player;
+    private float timer = 0.2f;
+
+    private GameObject player;
 
 
 
@@ -22,9 +26,10 @@ public class BuildingScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        buildingParts = GetComponentsInChildren<Transform>();
+        this.transform.GetChild(1).gameObject.SetActive(false);
+        buildingParts = this.transform.GetChild(0).gameObject.GetComponentsInChildren<Transform>();
         canBePlaced = true;
-        health = 100;
+        health = 1;
         player = GameObject.FindGameObjectWithTag("Player");
 
     }
@@ -32,53 +37,45 @@ public class BuildingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isClicked)
-        {
-            if (this.tag == "Townhall")
-            {
-                player.GetComponent<UIController>().TownhallUI.enabled = true;
-                
-            }
-            else if (this.tag == "Barracks")
-            {
-                player.GetComponent<UIController>().BarracksUI.enabled = true;
-                
-            }
-            else if (this.tag == "Stables")
-            {
-                player.GetComponent<UIController>().StablesUI.enabled = true;
-                
-
-            }
-            
-        }
-        else
-        {
-            if (this.tag == "Townhall")
-            {
-                player.GetComponent<UIController>().TownhallUI.enabled = false;
-                
-                
-            }
-            else if (this.tag == "Barracks")
-            {
-                player.GetComponent<UIController>().BarracksUI.enabled = false;
-                
-            }
-            else if (this.tag == "Stables")
-            {
-                player.GetComponent<UIController>().StablesUI.enabled = false;
-                
-
-            }
-        }
         
+        
+
+        if (isBeingBuilt)
+        {
+            this.transform.GetChild(1).gameObject.SetActive(true);
+            this.transform.GetChild(0).gameObject.SetActive(false);
+            timer -= Time.deltaTime;
+            if (timer < 0)
+            {
+                timer = 0.2f;
+                health++;
+                Debug.Log(health);
+                if (health == 100 && isBeingBuilt)
+                {
+                    isBeingBuilt = false;
+                    isBuilt = true;
+                    if (this.gameObject.tag == "House")
+                    {
+                        player.GetComponent<Player>().maxPopulation += 5;
+                    }
+                  
+                }
+            }
+        }
+        if(isBuilt)
+        {
+            this.transform.GetChild(0).gameObject.SetActive(true);
+            this.transform.GetChild(1).gameObject.SetActive(false);
+        }
+
+        
+
     }
 
     void OnTriggerEnter(Collider collision)
     {
         
-        if (collision.gameObject.tag != "Untagged" && !isBuilt) {
+        if (collision.gameObject.tag != "Untagged" && !isBuilt && !isBeingBuilt) {
 
             for (int i = 0; i < buildingParts.Length; i++)
             {
@@ -86,11 +83,12 @@ public class BuildingScript : MonoBehaviour
             }
             canBePlaced = false;
         }
+        
     }
 
     void OnTriggerExit(Collider collision)
     {
-        if(!isBuilt)
+        if(!isBuilt && !isBeingBuilt)
         {
             for (int i = 0; i < buildingParts.Length; i++)
             {

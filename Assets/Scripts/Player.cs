@@ -23,10 +23,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         maxPopulation = 10;
-        gold = 100;
-        wood = 100;
-        stone = 100;
-        food = 200;
+        
     }
 
     // Update is called once per frame

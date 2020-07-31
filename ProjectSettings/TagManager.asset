@@ -5,14 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Building
-  - DenseRocks
-  - SparseRocks
-  - DenseForrest
-  - SparseForrest
-  - DenseGold
-  - SparseGold
-  - DenseFarm
-  - SparseFarm
   - Water
   - Barracks
   - House
@@ -23,6 +15,10 @@ TagManager:
   - Villager
   - Knight
   - Soldier
+  - Forrest
+  - Gold
+  - Stone
+  - Farm
   layers:
   - Default
   - TransparentFX

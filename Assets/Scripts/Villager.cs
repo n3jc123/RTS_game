@@ -17,6 +17,8 @@ public class Villager : Unit
 
     private bool isGathering = false;
 
+    public bool isBuilding = false;
+
     private bool isMoving = false;
 
     private string name;
@@ -33,7 +35,13 @@ public class Villager : Unit
     void Update()
 
     {
+
         if(isGathering && destination != transform.position && !isMoving)
+        {
+            MoveUnit(destination);
+            isMoving = true;
+        }
+        else if(isBuilding && !isMoving)
         {
             MoveUnit(destination);
             isMoving = true;
@@ -67,14 +75,14 @@ public class Villager : Unit
         
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.collider.transform.tag == "DenseForrest" && name == "Villager")
+            if ((hit.collider.transform.tag == "Forrest" || hit.collider.transform.tag == "Gold" || hit.collider.transform.tag == "Stone" || hit.collider.transform.tag == "Farm")  && name == "Villager")
             {
                 destination = hit.transform.position;
                 isGathering = true; 
             }
             else
             {
-                
+                isGathering = false;
                 MoveUnit(Grid.GetMouseWorldPosition());
             }
         }

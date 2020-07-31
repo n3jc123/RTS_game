@@ -16,7 +16,7 @@ public class GameRTSController : MonoBehaviour
 
     private Vector2 endUIPosition;
 
-    private List<GameObject> selectedUnitsList;
+    public List<GameObject> selectedUnitsList;
 
     private GameObject selectedBuilding;
 
@@ -54,6 +54,7 @@ public class GameRTSController : MonoBehaviour
             if(EventSystem.current.currentSelectedGameObject == null && selectedBuilding != null)
             {
                 selectedBuilding.GetComponent<BuildingScript>().isClicked = false;
+                player.GetComponent<UIController>().DeactivateUI(selectedBuilding);
                 selectedBuilding = null;
             }
 
@@ -66,13 +67,13 @@ public class GameRTSController : MonoBehaviour
                 //izklopi indikator enotam, ki so bile prej izbrane
                 if (EventSystem.current.IsPointerOverGameObject())
                     return;
-                player.GetComponent<UIController>().VillagerUI.enabled = false;
+                player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(false);
             }
 
         }
         if (Input.GetMouseButtonUp(0))
         {
-            player.GetComponent<UIController>().VillagerUI.enabled = false;
+            player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(false);
             selectedUnitsList.Clear();
 
 
@@ -90,16 +91,10 @@ public class GameRTSController : MonoBehaviour
                     selectedUnitsList.Clear();
                     selectedUnitsList.Add(hit.collider.gameObject);
 
-                    player.GetComponent<UIController>().VillagerUI.enabled = true;
+                    player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(true);
 
                 }
-                else if (hit.collider.transform.tag == "Knight")
-                {
-                    selectedUnitsList.Clear();
-                    selectedUnitsList.Add(hit.collider.gameObject);
-
-                }
-                else if (hit.collider.transform.tag == "Soldier")
+                else if (hit.collider.transform.tag == "Knight" || hit.collider.transform.tag == "Soldier")
                 {
                     selectedUnitsList.Clear();
                     selectedUnitsList.Add(hit.collider.gameObject);
@@ -109,7 +104,7 @@ public class GameRTSController : MonoBehaviour
                 {
                     selectedBuilding = hit.collider.gameObject;
                     selectedBuilding.GetComponent<BuildingScript>().isClicked = true;
-
+                    player.GetComponent<UIController>().ActivatuUI(selectedBuilding);
                 }
             }
 
@@ -139,6 +134,7 @@ public class GameRTSController : MonoBehaviour
         {
             player.GetComponent<UIController>().VillagerUI.enabled = false;
             selectedBuilding.GetComponent<BuildingScript>().isClicked = false;
+            player.GetComponent<UIController>().DeactivateUI(selectedBuilding);
             selectedBuilding = null;
             foreach (GameObject unit in playerUnits)
             {
@@ -155,7 +151,7 @@ public class GameRTSController : MonoBehaviour
         }
         if(selectedUnitsList.Count == 1 && selectedUnitsList[0].tag == "Villager")
         {
-            player.GetComponent<UIController>().VillagerUI.enabled = true;
+            player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(true);
         }
 
 
@@ -194,20 +190,52 @@ public class GameRTSController : MonoBehaviour
 
     public void SpawnVillager()
     {
-        GameObject spawnedunit = Instantiate(player.getAvailibleUnits()[0], new Vector3(selectedBuilding.transform.position.x + 10f, selectedBuilding.transform.position.y, selectedBuilding.transform.position.z), Quaternion.Euler(0, 0, 0));
-        playerUnits.Add(spawnedunit); 
+        if(selectedBuilding.GetComponent<BuildingScript>().isBuilt && player.food >= 100 && player.currentPopulation < player.maxPopulation)
+        {
+            GameObject spawnedunit = Instantiate(player.getAvailibleUnits()[0], new Vector3(selectedBuilding.transform.position.x + 10f, selectedBuilding.transform.position.y, selectedBuilding.transform.position.z), Quaternion.Euler(0, 0, 0));
+            playerUnits.Add(spawnedunit);
+            player.food -= 100;
+        }
+        else
+        {
+            Debug.Log("Zgradba še ni zgrajena!");
+        }
+
+
     }
 
     public void SpawnSoldier()
     {
-        GameObject spawnedunit = Instantiate(player.getAvailibleUnits()[1], new Vector3(selectedBuilding.transform.position.x + 5f, selectedBuilding.transform.position.y, selectedBuilding.transform.position.z), Quaternion.Euler(0, 0, 0));
-        playerUnits.Add(spawnedunit);
+        if (selectedBuilding.GetComponent<BuildingScript>().isBuilt && player.gold >= 50 && player.food >= 150 && player.currentPopulation < player.maxPopulation)
+        {
+            GameObject spawnedunit = Instantiate(player.getAvailibleUnits()[1], new Vector3(selectedBuilding.transform.position.x + 5f, selectedBuilding.transform.position.y, selectedBuilding.transform.position.z), Quaternion.Euler(0, 0, 0));
+            playerUnits.Add(spawnedunit);
+            player.gold -= 50;
+            player.food -= 150;
+        }
+        else
+        {
+            Debug.Log("Zgradba še ni zgrajena!");
+        }
+
+
     }
 
     public void SpawnKnight()
     {
-        GameObject spawnedunit = Instantiate(player.getAvailibleUnits()[2], new Vector3(selectedBuilding.transform.position.x + 10f, selectedBuilding.transform.position.y, selectedBuilding.transform.position.z), Quaternion.Euler(0, 0, 0));
-        playerUnits.Add(spawnedunit);
+        if (selectedBuilding.GetComponent<BuildingScript>().isBuilt && player.gold >= 100 && player.food >= 200 && player.wood >= 50 && player.currentPopulation < player.maxPopulation)
+        {
+            GameObject spawnedunit = Instantiate(player.getAvailibleUnits()[2], new Vector3(selectedBuilding.transform.position.x + 10f, selectedBuilding.transform.position.y, selectedBuilding.transform.position.z), Quaternion.Euler(0, 0, 0));
+            playerUnits.Add(spawnedunit);
+            player.food -= 200;
+            player.gold -= 100;
+            player.wood -= 50;
+        }
+        else
+        {
+            Debug.Log("Zgradba še ni zgrajena!");
+        }
+        
     }
 
     public void ReleaseSelectionBox()

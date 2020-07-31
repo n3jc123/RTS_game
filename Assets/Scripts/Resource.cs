@@ -4,28 +4,101 @@ using UnityEngine;
 
 public class Resource : MonoBehaviour
 {
-    private int amount = 3000;
+    private int amount = 1510;
     private float timer = 0.5f;
-    public bool isGathered;
+    
+    private GameObject player;
+    private int villagersGathering = 0;
+    
+    
+    
     // Start is called before the first frame update
     void Start()
     {
-        isGathered = false;
+        
+        player = GameObject.Find("Player");
+        Debug.Log(this.transform.GetChild(0).name);
+        Debug.Log(this.transform.GetChild(1).name);
+
+        this.transform.GetChild(1).gameObject.SetActive(false);
+        //Debug.Log("sparse: " + sparseForrest.transform.position);
+        //Debug.Log(gameObject.transform.position);
+        //sparseForrest.SetActive(false);
+
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        if(isGathered)
+        if(villagersGathering > 0)
         {
-            timer -= Time.deltaTime;
-            if (timer < 0)
+            
+
+            if (this.gameObject.tag == "Forrest")
             {
-                timer = 0.5f;
-                amount--;
-                Debug.Log("Imam se " + amount + " surovin");
+                
+                timer -= Time.deltaTime;
+                if (timer < 0)
+                {
+                    
+                    timer = 0.5f / villagersGathering;
+                    amount--;
+                    player.GetComponent<Player>().wood++;
+                    
+                }
             }
+            else if (this.gameObject.tag == "Gold")
+            {
+
+                timer -= Time.deltaTime;
+                if (timer < 0)
+                {
+
+                    timer = 0.5f / villagersGathering;
+                    amount--;
+                    player.GetComponent<Player>().gold++;
+
+                }
+            }
+            else if (this.gameObject.tag == "Farm")
+            {
+
+                timer -= Time.deltaTime;
+                if (timer < 0)
+                {
+
+                    timer = 0.5f / villagersGathering;
+                    amount--;
+                    player.GetComponent<Player>().food++;
+
+                }
+            }
+            if (this.gameObject.tag == "Stone")
+            {
+
+                timer -= Time.deltaTime;
+                if (timer < 0)
+                {
+
+                    timer = 0.5f / villagersGathering;
+                    amount--;
+                    player.GetComponent<Player>().stone++;
+
+                }
+            }
+
+        }
+        if(amount < 1500)
+        {
+            this.transform.GetChild(0).gameObject.SetActive(false);
+            this.transform.GetChild(1).gameObject.SetActive(true);
+            //sparseForrest.SetActive(true);
+            //Instantiate(resourceModel);
+            
+            
         }
     }
 
@@ -34,17 +107,17 @@ public class Resource : MonoBehaviour
 
         if (collision.gameObject.tag == "Villager")
         {
-            isGathered = true;
-            Debug.Log("evooo meeenee");
+            villagersGathering++;
+            
         }
     }
 
-    void OnTriggerexit(Collider collision)
+    void OnTriggerExit(Collider collision)
     {
-
+       
         if (collision.gameObject.tag == "Villager")
         {
-            isGathered = false;
+            villagersGathering--;
 
 
         }
