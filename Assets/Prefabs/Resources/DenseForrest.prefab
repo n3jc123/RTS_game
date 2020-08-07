@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1337827563578517487}
   - component: {fileID: 1337827563579811791}
   - component: {fileID: 1337827563580941583}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DenseForrest
   m_TagString: Forrest
   m_Icon: {fileID: 0}

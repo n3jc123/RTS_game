@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 
 public class Villager : Unit
 {
@@ -24,11 +24,16 @@ public class Villager : Unit
     private string name;
 
     private Vector3 destination;
+
+    private Coroutine coroutine;
+
+
     // Start is called before the first frame update
     void Start()
     {
         ground = GameObject.Find("Ground");
         name = this.gameObject.tag;
+        
     }
 
     // Update is called once per frame
@@ -36,7 +41,7 @@ public class Villager : Unit
 
     {
 
-        if(isGathering && destination != transform.position && !isMoving)
+        if (isGathering && destination != transform.position && !isMoving)
         {
             MoveUnit(destination);
             isMoving = true;
@@ -90,7 +95,8 @@ public class Villager : Unit
 
     public void MoveUnit(Vector3 destination)
     {
-        StartCoroutine(MoveCoroutine(this.gameObject, destination));
+        coroutine = StartCoroutine(MoveCoroutine(this.gameObject, destination));
+
     }
     IEnumerator MoveCoroutine(GameObject unit, Vector3 destination)
     {

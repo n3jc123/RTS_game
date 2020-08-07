@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 972973596730622305}
   - component: {fileID: 972973596730622306}
   - component: {fileID: 972973596730622307}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Farm
   m_TagString: Farm
   m_Icon: {fileID: 0}
@@ -145,6 +145,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SparseFarm
+      objectReference: {fileID: 0}
+    - target: {fileID: 2803294554947432105, guid: 68bb829a43c675040b60d7647c28bd92,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2803294554947203721, guid: 68bb829a43c675040b60d7647c28bd92,
         type: 3}

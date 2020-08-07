@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4730166454216863260}
   - component: {fileID: 4730166454218190396}
   - component: {fileID: 4730166454219287804}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DenseFarm
   m_TagString: Farm
   m_Icon: {fileID: 0}

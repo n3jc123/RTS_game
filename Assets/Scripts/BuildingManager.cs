@@ -26,6 +26,7 @@ public class BuildingManager : MonoBehaviour
         RTSController = GameObject.Find("GameRTSController");
 
         grid = new Grid(mesh.x / 10, mesh.z / 10, 10, new Vector3(-mesh.x / 2, 0, -mesh.z / 2));
+        Debug.Log(mesh.x / 10);
     }
     private void Start()
     {

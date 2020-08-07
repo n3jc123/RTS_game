@@ -19,6 +19,7 @@ TagManager:
   - Gold
   - Stone
   - Farm
+  - Mountain
   layers:
   - Default
   - TransparentFX
