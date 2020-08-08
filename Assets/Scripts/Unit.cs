@@ -85,6 +85,7 @@ public class Unit : MonoBehaviour
                 {
 					target = hit.transform.position;
 					GetComponent<Villager>().isGathering = true;
+
 				}
                 else
                 {
@@ -107,9 +108,10 @@ public class Unit : MonoBehaviour
 				
 
 			}
+			PathRequestManager.RequestPath(transform.position, target, OnPathFound);
 		}
-		Debug.Log("take action OK");
-		PathRequestManager.RequestPath(transform.position, target, OnPathFound);
+		
+		
 	}
 
 	public void OnDrawGizmos()

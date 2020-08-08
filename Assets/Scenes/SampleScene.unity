@@ -1054,7 +1054,7 @@ GameObject:
   - component: {fileID: 855820830}
   - component: {fileID: 855820834}
   - component: {fileID: 855820835}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1901,7 +1901,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   gridWorldSize: {x: 1000, y: 1000}
-  nodeRadius: 1
+  nodeRadius: 2.5
+  walkableRegions:
+  - terrainMask:
+      serializedVersion: 2
+      m_Bits: 1024
+    terrainPenalty: 0
+  - terrainMask:
+      serializedVersion: 2
+      m_Bits: 2048
+    terrainPenalty: 200
   drawGizmos: 0
 --- !u!4 &1658580749
 Transform:

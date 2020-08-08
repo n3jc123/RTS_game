@@ -9,6 +9,9 @@ public class GridA : MonoBehaviour
     public Vector2 gridWorldSize;
     public float nodeRadius;
     public Node[,] grid;
+    public TerrainType[] walkableRegions;
+    LayerMask walkableMask;
+    Dictionary<int, int> walkableRegionsDict = new Dictionary<int, int>();
 
     public bool drawGizmos;
 
@@ -27,6 +30,13 @@ public class GridA : MonoBehaviour
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+
+        foreach(TerrainType region in walkableRegions)
+        {
+            walkableMask.value = walkableMask | region.terrainMask.value;
+            walkableRegionsDict.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
+        }
+
         CreateGrid();
 
     }
@@ -61,7 +71,20 @@ public class GridA : MonoBehaviour
 
                 }
                 */
-                grid[x, y] = new Node(walkable, worldPoint, x, y);
+                int movementPenalty = 0;
+
+                //raycast
+                if(walkable)
+                {
+                    Ray ray = new Ray(worldPoint + Vector3.up * 100, Vector3.down);
+                    RaycastHit hit;
+                    if(Physics.Raycast(ray, out hit, 120, walkableMask))
+                    {
+                        walkableRegionsDict.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                    }
+                }
+
+                grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);
 
 
             }
@@ -78,7 +101,7 @@ public class GridA : MonoBehaviour
                 
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                
+
                 //TODO: robni resourci morajo biti walkable
                 /*
                 if(GameObject.Find("Ground").GetComponent<Grid>().GetValue(x, y) == "Empty")
@@ -91,7 +114,12 @@ public class GridA : MonoBehaviour
 
                 }
                 */
-                grid[x, y] = new Node(walkable, worldPoint, x, y);
+
+                int movementPenalty = 0;
+
+                //raycast
+
+                grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);
 
 
             }
@@ -158,7 +186,11 @@ public class GridA : MonoBehaviour
         
         
     }
-
-
+    [System.Serializable]
+    public class TerrainType
+    {
+        public LayerMask terrainMask;
+        public int terrainPenalty;
+    }
 
 }

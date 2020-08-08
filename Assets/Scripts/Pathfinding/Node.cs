@@ -19,14 +19,16 @@ public class Node : IHeapItem<Node>
     public int dist;
     public int prev;
     public Node parent;
+    public int movementPenalty;
 
-    public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY)
+    public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY, int _penalty)
     {
         walkable = _walkable;
         worldPosition = _worldPos;
         gridX = _gridX;
         gridY = _gridY;
         dist = 100000; //moglo bi bit int.maxValue
+        movementPenalty = _penalty;
     }
 
     public int HeapIndex
