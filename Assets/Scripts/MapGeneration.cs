@@ -20,13 +20,24 @@ public class MapGeneration : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        int randomRotation;
         
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void GenerateMap()
+    {
+        int randomRotation;
+
         map = bitMap.GetPixels();
         //Debug.Log(map.Length);
         for (int x = 0; x < bitMap.width; x++)
         {
-            for(int y = 0; y < bitMap.height; y++)
+            for (int y = 0; y < bitMap.height; y++)
             {
 
                 randomRotation = Random.Range(0, 4);
@@ -36,19 +47,27 @@ public class MapGeneration : MonoBehaviour
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Stone");
                     Instantiate(stone, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
                 }
+                /*else if (map[x + y * bitMap.width].g < 0.90f && map[x + y * bitMap.width].g > 0.80f)
+                {
+                    GetComponent<BuildingManager>().grid.SetValue(x, y, "Forrest");
+
+                    GameObject forrestEdge = Instantiate(forrest, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    forrestEdge.layer = 0;
+                }
+                */
                 else if (map[x + y * bitMap.width].g > 0.45f && map[x + y * bitMap.width].g < 0.55f && map[x + y * bitMap.width].r > 0.45f && map[x + y * bitMap.width].r < 0.55f)
                 {
                     Instantiate(mountain, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
                     for (int i = -5; i < 6; i++)
                     {
-                        for(int j = -5; j < 6; j++)
+                        for (int j = -5; j < 6; j++)
                         {
                             GetComponent<BuildingManager>().grid.SetValue(x + i, y + j, "Mountain");
-                            
+
                         }
-                        
+
                     }
-                    
+
                 }
                 else if (map[x + y * bitMap.width].g > 0.90f && map[x + y * bitMap.width].r > 0.90f)
                 {
@@ -60,7 +79,7 @@ public class MapGeneration : MonoBehaviour
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Forrest");
                     Instantiate(forrest, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
                 }
-                
+
                 else if (map[x + y * bitMap.width].r > 0.90f)
                 {
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Farm");
@@ -74,13 +93,7 @@ public class MapGeneration : MonoBehaviour
 
 
             }
-            
-        }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        }
     }
 }

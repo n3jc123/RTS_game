@@ -47,7 +47,7 @@ public class BuildingScript : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer < 0)
             {
-                timer = 0.2f;
+                timer = 0.03f;
                 health++;
                 Debug.Log(health);
                 if (health == 100 && isBeingBuilt)

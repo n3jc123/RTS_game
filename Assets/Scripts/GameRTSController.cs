@@ -121,11 +121,11 @@ public class GameRTSController : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            Vector3 destination = Grid.GetMouseWorldPosition();
+            
 
             foreach (GameObject unit in selectedUnitsList)
             {
-                unit.GetComponent<Villager>().TakeAction();
+                unit.GetComponent<Unit>().TakeAction();
             }
 
         }
@@ -143,11 +143,11 @@ public class GameRTSController : MonoBehaviour
         }
         foreach (GameObject unit in playerUnits)
         {
-            unit.GetComponent<Villager>().isSelected = false;
+            unit.GetComponent<Unit>().isSelected = false;
         }
         foreach (GameObject unit in selectedUnitsList)
         {
-            unit.GetComponent<Villager>().isSelected = true;
+            unit.GetComponent<Unit>().isSelected = true;
         }
         if(selectedUnitsList.Count == 1 && selectedUnitsList[0].tag == "Villager")
         {

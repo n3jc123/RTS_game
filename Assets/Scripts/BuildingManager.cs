@@ -15,25 +15,11 @@ public class BuildingManager : MonoBehaviour
 
     private GameObject currentBuilding;
 
-    private GameObject RTSController;
+    //private GameObject RTSController;
 
     // Start is called before the first frame update
 
-    private void Awake()
-    {
-        Vector3Int mesh = Vector3Int.FloorToInt(GetComponent<MeshRenderer>().bounds.size);
-        Vector3Int scale = Vector3Int.FloorToInt(GetComponent<Transform>().localScale);
-        RTSController = GameObject.Find("GameRTSController");
 
-        grid = new Grid(mesh.x / 10, mesh.z / 10, 10, new Vector3(-mesh.x / 2, 0, -mesh.z / 2));
-        Debug.Log(mesh.x / 10);
-    }
-    private void Start()
-    {
-        
-        
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -58,8 +44,8 @@ public class BuildingManager : MonoBehaviour
             {
 
                 PlaceBuilding(currentMousePosition);
-
-
+                GameObject.Find("AStar").GetComponent<GridA>().UpdateGrid();
+                //GameObject.Find("AStar").GetComponent<PathfindingAStar>().UpdateGrid();
             }
         }
     }
@@ -107,7 +93,7 @@ public class BuildingManager : MonoBehaviour
                 player.wood -= 300;
                 player.gold -= 150;
             }
-
+            
             currentBuilding = null;
             
         }
@@ -173,5 +159,14 @@ public class BuildingManager : MonoBehaviour
         {
             buildingParts[i].GetComponent<MeshRenderer>().material.color = color;
         }
+    }
+
+    public void CreateGrid()
+    {
+        Vector3Int mesh = Vector3Int.FloorToInt(GetComponent<MeshRenderer>().bounds.size);
+        Vector3Int scale = Vector3Int.FloorToInt(GetComponent<Transform>().localScale);
+        //RTSController = GameObject.Find("GameRTSController");
+
+        grid = new Grid(mesh.x / 10, mesh.z / 10, 10, new Vector3(-mesh.x / 2, 0, -mesh.z / 2));
     }
 }

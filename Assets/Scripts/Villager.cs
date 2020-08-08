@@ -13,9 +13,9 @@ public class Villager : Unit
 
     private float timer = 0.5f;
 
-    private GameObject ground;
 
-    private bool isGathering = false;
+
+    public bool isGathering = false;
 
     public bool isBuilding = false;
 
@@ -27,11 +27,13 @@ public class Villager : Unit
 
     private Coroutine coroutine;
 
+    
+
 
     // Start is called before the first frame update
     void Start()
     {
-        ground = GameObject.Find("Ground");
+
         name = this.gameObject.tag;
         
     }
@@ -41,17 +43,17 @@ public class Villager : Unit
 
     {
 
-        if (isGathering && destination != transform.position && !isMoving)
+        if (isGathering && target != transform.position && !isMoving)
         {
-            MoveUnit(destination);
+
             isMoving = true;
         }
         else if(isBuilding && !isMoving)
         {
-            MoveUnit(destination);
+
             isMoving = true;
         }
-        else if(isGathering && destination == transform.position)
+        else if(isGathering && target == transform.position)
         {
             isMoving = false;
             timer -= Time.deltaTime;
@@ -62,56 +64,9 @@ public class Villager : Unit
             }
         }
 
-        if (isSelected)
-        {
-            this.transform.GetChild(0).gameObject.SetActive(true);
-        }
-        else
-        {
-            this.transform.GetChild(0).gameObject.SetActive(false);
-        }
-    }
-
-    public void TakeAction()
-    {
         
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-        
-        if (Physics.Raycast(ray, out hit))
-        {
-            if ((hit.collider.transform.tag == "Forrest" || hit.collider.transform.tag == "Gold" || hit.collider.transform.tag == "Stone" || hit.collider.transform.tag == "Farm")  && name == "Villager")
-            {
-                destination = hit.transform.position;
-                isGathering = true; 
-            }
-            else
-            {
-                isGathering = false;
-                MoveUnit(Grid.GetMouseWorldPosition());
-            }
-        }
     }
 
-    public void MoveUnit(Vector3 destination)
-    {
-        coroutine = StartCoroutine(MoveCoroutine(this.gameObject, destination));
-
-    }
-    IEnumerator MoveCoroutine(GameObject unit, Vector3 destination)
-    {
-        while (destination.x != unit.transform.position.x || destination.z != unit.transform.position.z)
-        {
-
-
-            float step = 5f * Time.deltaTime;
-            unit.transform.position = Vector3.MoveTowards(unit.transform.position, destination, step);
-            yield return null;
-
-
-        }
-
-
-    }
+   
 
 }

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 627844730656745274}
-  - component: {fileID: 4795238044274073634}
   - component: {fileID: 6847773953252045030}
+  - component: {fileID: 268497561893660098}
   m_Layer: 0
   m_Name: Soldier
   m_TagString: Soldier
@@ -34,23 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4795238044274073634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769151070238107948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ab1b05455214a8468975b6265df800d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSelected: 0
-  gold: 0
-  wood: 0
-  stone: 0
-  food: 0
 --- !u!136 &6847773953252045030
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -65,6 +48,20 @@ CapsuleCollider:
   m_Height: 1.8530259
   m_Direction: 1
   m_Center: {x: 0, y: 0.42651296, z: 0}
+--- !u!114 &268497561893660098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769151070238107948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c1248bf7b4edd4ab87b849cee52b5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {x: 0, y: 0, z: 0}
+  isSelected: 0
 --- !u!1 &3797167541393272699
 GameObject:
   m_ObjectHideFlags: 0

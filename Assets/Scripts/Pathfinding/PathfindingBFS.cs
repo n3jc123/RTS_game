@@ -37,7 +37,7 @@ public class PathfindingBFS : MonoBehaviour
         {
             Node node = queue.Dequeue();
             visited.Add(node);
-            grid.visited.Add(node); //only for drawing purposes
+            //grid.visited.Add(node); //only for drawing purposes
             foreach (Node neighbour in grid.GetNeighbours(node))
             {
                 
@@ -72,7 +72,7 @@ public class PathfindingBFS : MonoBehaviour
         }
         path.Reverse();
 
-        grid.path = path;
+        //grid.path = path;
         
 
     }

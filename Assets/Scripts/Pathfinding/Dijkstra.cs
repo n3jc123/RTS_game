@@ -50,7 +50,7 @@ public class Dijkstra : MonoBehaviour
                 Node node = nodesHeap.Pop();
                 visited.Add(node);
 
-                grid.visited.Add(node); //only for drawing purposes
+                //grid.visited.Add(node); //only for drawing purposes
 
             if (node == endNode)
             {
@@ -108,7 +108,7 @@ public class Dijkstra : MonoBehaviour
         }
         path.Reverse();
 
-        grid.path = path;
+        //grid.path = path;
 
 
     }

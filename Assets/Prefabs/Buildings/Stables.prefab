@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8538767374621024887}
   - component: {fileID: 5134022696990350949}
   - component: {fileID: 8727237384388383549}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Stables
   m_TagString: Stables
   m_Icon: {fileID: 0}
@@ -91,6 +91,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConstructionStables
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893731860064138578, guid: 38becdd9315fe874da824fe5d3414446,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2893731860064364914, guid: 38becdd9315fe874da824fe5d3414446,
         type: 3}
@@ -222,12 +227,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7185807830809010194, guid: 8914b5477ec6ff8438280b30c05a507d,
+    - target: {fileID: 8435283502656568241, guid: 8914b5477ec6ff8438280b30c05a507d,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8435283502656568241, guid: 8914b5477ec6ff8438280b30c05a507d,
+    - target: {fileID: 7185807830809010194, guid: 8914b5477ec6ff8438280b30c05a507d,
         type: 3}
       propertyPath: m_Enabled
       value: 0
