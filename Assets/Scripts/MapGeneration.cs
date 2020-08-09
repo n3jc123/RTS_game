@@ -88,7 +88,7 @@ public class MapGeneration : MonoBehaviour
                 else if (map[x + y * bitMap.width].b > 0.90f)
                 {
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Water");
-                    Instantiate(water, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.identity);
+                    Instantiate(water, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
                 }
 
 

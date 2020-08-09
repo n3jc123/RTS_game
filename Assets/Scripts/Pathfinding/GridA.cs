@@ -118,6 +118,15 @@ public class GridA : MonoBehaviour
                 int movementPenalty = 0;
 
                 //raycast
+                if (walkable)
+                {
+                    Ray ray = new Ray(worldPoint + Vector3.up * 100, Vector3.down);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 120, walkableMask))
+                    {
+                        walkableRegionsDict.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                    }
+                }
 
                 grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);
 

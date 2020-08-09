@@ -14,27 +14,16 @@ public class GameRTSController : MonoBehaviour
 
     private Vector3 endPosition;
 
-    private Vector2 endUIPosition;
-
     public List<GameObject> selectedUnitsList;
 
     private GameObject selectedBuilding;
 
-    private List<GameObject> playerUnits;
-
-    private Villager vila;
-
-    private List<Villager> playerVillagers;
-
-    private List<Villager> selectedVillagers;
+    public List<GameObject> playerUnits;
 
     public Player player;
 
     public RectTransform selectionBox;
 
-
-
-    private Coroutine co;
 
 
     private void Awake()
@@ -122,7 +111,7 @@ public class GameRTSController : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             
-
+            
             foreach (GameObject unit in selectedUnitsList)
             {
                 unit.GetComponent<Unit>().TakeAction();

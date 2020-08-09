@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6a6df342b52d24092cf6bbb590c535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveHeight: 0.03
-  waveFrequency: 0.4
+  waveHeight: 0.05
+  waveFrequency: 1
   waveLength: 0.5
-  waveOriginPosition: {x: 0, y: 0, z: 0}
+  waveOriginPosition: {x: 1, y: 0, z: 0}

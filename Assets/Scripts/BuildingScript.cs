@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEngine.Experimental.UIElements;
+using UnityEngine.UI;
 
 public class BuildingScript : MonoBehaviour
 {
@@ -20,8 +22,7 @@ public class BuildingScript : MonoBehaviour
 
     private GameObject player;
 
-
-
+    public Image buildingBar;
 
     // Start is called before the first frame update
     void Start()
@@ -31,15 +32,25 @@ public class BuildingScript : MonoBehaviour
         canBePlaced = true;
         health = 1;
         player = GameObject.FindGameObjectWithTag("Player");
+        //buildingBar = transform.GetChild(0).GetComponent<Image>();
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        
+        if(health == 100)
+        {
+            buildingBar.enabled = false;
+        }
+        else
+        {
+            buildingBar.enabled = true;
 
+        }
+
+        buildingBar.fillAmount = health / 100f;
         if (isBeingBuilt)
         {
             this.transform.GetChild(1).gameObject.SetActive(true);

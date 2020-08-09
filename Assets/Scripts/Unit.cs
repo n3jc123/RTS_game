@@ -12,18 +12,37 @@ public class Unit : MonoBehaviour
 	int targetIndex;
 
 	public bool isSelected;
+	private bool isMoving;
 
-	
 
 	void Start()
 	{
-		
+		target = this.transform.position;
 		//PathRequestManager.RequestPath(transform.position, target, OnPathFound);
 	}
 
     void Update()
     {
-        
+		if(isMoving)
+        {
+			RaycastHit rayHit;
+			Vector3 rayOrigin = this.transform.position;
+			Vector3 ray = this.transform.forward * 5;
+
+
+			if (Physics.Raycast(rayOrigin, ray, out rayHit, ray.magnitude))
+			{
+				
+				if (rayHit.transform.tag == "Townhall" || rayHit.transform.tag == "Warehouse" || rayHit.transform.tag == "House" || rayHit.transform.tag == "Barracks" || rayHit.transform.tag == "Stables")
+				{
+					PathRequestManager.RequestPath(transform.position, target, OnPathFound);
+				}
+
+			}
+		}
+		
+
+
 
 		if (isSelected)
 		{
@@ -40,7 +59,7 @@ public class Unit : MonoBehaviour
 		
 		if (pathSuccessful)
 		{
-			
+			isMoving = true;
 			path = newPath;
 			targetIndex = 0;
 			StopCoroutine("FollowPath");
@@ -50,7 +69,9 @@ public class Unit : MonoBehaviour
 
 	IEnumerator FollowPath()
 	{
+
 		Vector3 currentWaypoint = path[0];
+
 		while (true)
 		{
 			if (transform.position == currentWaypoint)
@@ -58,12 +79,14 @@ public class Unit : MonoBehaviour
 				targetIndex++;
 				if (targetIndex >= path.Length)
 				{
-					//targetIndex = 0;
-					//path = new Vector3[0];
+					targetIndex = 0;
+					path = new Vector3[0];
+					
 					yield break;
 				}
 				currentWaypoint = path[targetIndex];
 			}
+			this.transform.LookAt(currentWaypoint);
 
 			transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
 			yield return null;
@@ -81,9 +104,10 @@ public class Unit : MonoBehaviour
 		{
 			if (hit.collider.transform.tag == "Forrest" || hit.collider.transform.tag == "Gold" || hit.collider.transform.tag == "Stone" || hit.collider.transform.tag == "Farm")
 			{
-				if(name == "Villager")
+				if(this.tag == "Villager")
                 {
 					target = hit.transform.position;
+					
 					GetComponent<Villager>().isGathering = true;
 
 				}
@@ -95,7 +119,7 @@ public class Unit : MonoBehaviour
 			}
 			else
 			{
-				if(name == "Villager")
+				if(this.tag == "Villager")
                 {
 					GetComponent<Villager>().isGathering = false;
 					target = Grid.GetMouseWorldPosition();
@@ -114,7 +138,28 @@ public class Unit : MonoBehaviour
 		
 	}
 
-	public void OnDrawGizmos()
+
+
+    public void OnTriggerEnter(Collider collider)
+    {
+		
+		if (collider.gameObject.layer == 11)
+        {
+			speed = 4;
+        }
+    }
+
+	public void OnTriggerExit(Collider collider)
+	{
+
+		if (collider.gameObject.layer == 11)
+		{
+			speed = 20;
+		}
+	}
+
+	
+public void OnDrawGizmos()
 	{
 		if (path != null)
 		{

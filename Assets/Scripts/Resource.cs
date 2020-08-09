@@ -32,7 +32,10 @@ public class Resource : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(villagersGathering < 0)
+        {
+            villagersGathering = 0;
+        }
         if(villagersGathering > 0)
         {
             
@@ -105,7 +108,7 @@ public class Resource : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
 
-        if (collision.gameObject.tag == "Villager")
+        if (collision.gameObject.tag == "Villager" && collision.gameObject.GetComponent<Villager>().isGathering)
         {
             villagersGathering++;
             
@@ -115,9 +118,10 @@ public class Resource : MonoBehaviour
     void OnTriggerExit(Collider collision)
     {
        
-        if (collision.gameObject.tag == "Villager")
+        if (collision.gameObject.tag == "Villager")// && collision.gameObject.GetComponent<Villager>().isGathering)
         {
             villagersGathering--;
+            //collision.gameObject.GetComponent<Villager>().isGathering = false;
 
 
         }

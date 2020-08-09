@@ -21,20 +21,9 @@ public class Villager : Unit
 
     private bool isMoving = false;
 
-    private string name;
-
-    private Vector3 destination;
-
-    private Coroutine coroutine;
-
-    
-
-
     // Start is called before the first frame update
     void Start()
     {
-
-        name = this.gameObject.tag;
         
     }
 
@@ -42,7 +31,7 @@ public class Villager : Unit
     void Update()
 
     {
-
+        /*
         if (isGathering && target != transform.position && !isMoving)
         {
 
@@ -63,8 +52,14 @@ public class Villager : Unit
                 wood++;
             }
         }
+        */
 
         
+    }
+
+    public void GoBuild()
+    {
+        PathRequestManager.RequestPath(transform.position, target, OnPathFound);
     }
 
    

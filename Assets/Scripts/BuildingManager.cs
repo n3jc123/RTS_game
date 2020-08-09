@@ -15,6 +15,9 @@ public class BuildingManager : MonoBehaviour
 
     private GameObject currentBuilding;
 
+
+    public bool worldChanged;
+
     //private GameObject RTSController;
 
     // Start is called before the first frame update
@@ -42,11 +45,22 @@ public class BuildingManager : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-
+                //GameObject villager = player.GetComponent<GameRTSController>().selectedUnitsList[0];
+                //villager.GetComponent<Villager>().target = currentMousePosition;
+                //villager.GetComponent<Villager>().GoBuild();
                 PlaceBuilding(currentMousePosition);
                 GameObject.Find("AStar").GetComponent<GridA>().UpdateGrid();
+                worldChanged = true;
                 //GameObject.Find("AStar").GetComponent<PathfindingAStar>().UpdateGrid();
             }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+
+                Destroy(currentBuilding);
+            }
+
+
         }
     }
 
@@ -103,6 +117,7 @@ public class BuildingManager : MonoBehaviour
     {
 
         //RTSController.GetComponent<GameRTSController>().selectedUnitsList[0].GetComponent<Villager>().isBuilding = true;
+
         if (name == "House" && player.wood >= 150)
         {
             Destroy(currentBuilding);
@@ -146,7 +161,7 @@ public class BuildingManager : MonoBehaviour
             
             
         }
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown("escape") && currentBuilding != null)
         {
             Destroy(currentBuilding);
         }
