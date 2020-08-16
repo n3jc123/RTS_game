@@ -19,7 +19,9 @@ public class Villager : Unit
 
     public bool isBuilding = false;
 
-    private bool isMoving = false;
+    public bool isMoving = false;
+
+    public bool there = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,35 @@ public class Villager : Unit
     void Update()
 
     {
+        if(isBuilding)
+        {
+            
+            PathRequestManager.RequestPath(transform.position, target, OnPathFound);
+            isBuilding = false;
+        }
+
+        if (this.tag == "Villager")
+        {
+            RaycastHit rayHit;
+            Vector3 rayOrigin = this.transform.position;
+            Vector3 ray = this.transform.forward * 10;
+
+
+            if (Physics.Raycast(rayOrigin, ray, out rayHit, ray.magnitude))
+            {
+
+                if (rayHit.transform.tag == "Townhall" || rayHit.transform.tag == "Warehouse" || rayHit.transform.tag == "House" || rayHit.transform.tag == "Barracks" || rayHit.transform.tag == "Stables")
+                {
+                    Debug.Log("theeereeee");
+                    this.there = true;
+                }
+                else
+                {
+                    this.there = false;
+                }
+
+            }
+        }
         /*
         if (isGathering && target != transform.position && !isMoving)
         {
@@ -54,13 +85,10 @@ public class Villager : Unit
         }
         */
 
-        
+
     }
 
-    public void GoBuild()
-    {
-        PathRequestManager.RequestPath(transform.position, target, OnPathFound);
-    }
+   
 
    
 

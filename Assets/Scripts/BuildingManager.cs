@@ -15,6 +15,7 @@ public class BuildingManager : MonoBehaviour
 
     private GameObject currentBuilding;
 
+    public GameObject villagerBuilding;
 
     public bool worldChanged;
 
@@ -53,12 +54,19 @@ public class BuildingManager : MonoBehaviour
                 worldChanged = true;
                 //GameObject.Find("AStar").GetComponent<PathfindingAStar>().UpdateGrid();
             }
+            if (villagerBuilding.GetComponent<Villager>().there)
+            {
+                Debug.Log("lololo");
+                
+            }
 
             if (Input.GetMouseButtonDown(1))
             {
 
                 Destroy(currentBuilding);
             }
+            //Debug.Log(villagerBuilding.GetComponent<Villager>().there);
+            
 
 
         }
@@ -72,8 +80,17 @@ public class BuildingManager : MonoBehaviour
         {
             
             currentBuilding.transform.position = mousePosition;
+            villagerBuilding.GetComponent<Villager>().target = new Vector3(mousePosition.x, mousePosition.y, mousePosition.z + 5);
+            villagerBuilding.GetComponent<Villager>().isBuilding = true;
+            //villagerBuilding.GetComponent<Villager>().isMoving = true;
+            currentBuilding.GetComponent<BuildingScript>().villager = villagerBuilding;
             buildingScript.isBeingBuilt = true;
             
+            
+            
+
+
+
 
 
             changeColor(Color.white);
@@ -115,9 +132,10 @@ public class BuildingManager : MonoBehaviour
 
     public void BuildingPlacement(string name)
     {
-
-        //RTSController.GetComponent<GameRTSController>().selectedUnitsList[0].GetComponent<Villager>().isBuilding = true;
-
+        
+        villagerBuilding = GameObject.Find("GameRTSController").GetComponent<GameRTSController>().selectedUnitsList[0];
+        Debug.Log(villagerBuilding.GetComponent<Villager>().there);
+        
         if (name == "House" && player.wood >= 150)
         {
             Destroy(currentBuilding);

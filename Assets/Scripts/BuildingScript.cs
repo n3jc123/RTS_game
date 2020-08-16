@@ -18,6 +18,10 @@ public class BuildingScript : MonoBehaviour
 
     public bool isClicked = false;
 
+    public bool isWaitingForVillager;
+
+    public GameObject villager;
+
     private float timer = 0.2f;
 
     private GameObject player;
@@ -32,6 +36,7 @@ public class BuildingScript : MonoBehaviour
         canBePlaced = true;
         health = 1;
         player = GameObject.FindGameObjectWithTag("Player");
+        isWaitingForVillager = true;
         //buildingBar = transform.GetChild(0).GetComponent<Image>();
 
 
@@ -53,25 +58,32 @@ public class BuildingScript : MonoBehaviour
         buildingBar.fillAmount = health / 100f;
         if (isBeingBuilt)
         {
+            
             this.transform.GetChild(1).gameObject.SetActive(true);
             this.transform.GetChild(0).gameObject.SetActive(false);
-            timer -= Time.deltaTime;
-            if (timer < 0)
+            if(villager != null && villager.GetComponent<Villager>().there)
             {
-                timer = 0.03f;
-                health++;
-                Debug.Log(health);
-                if (health == 100 && isBeingBuilt)
+                Debug.Log("lalala");
+                timer -= Time.deltaTime;
+                if (timer < 0)
                 {
-                    isBeingBuilt = false;
-                    isBuilt = true;
-                    if (this.gameObject.tag == "House")
+                    timer = 0.03f;
+                    health++;
+                    //Debug.Log(health);
+                    if (health == 100 && isBeingBuilt)
                     {
-                        player.GetComponent<Player>().maxPopulation += 5;
+                        isBeingBuilt = false;
+                        isBuilt = true;
+                        //villager.GetComponent<Villager>().there = false;
+                        if (this.gameObject.tag == "House")
+                        {
+                            player.GetComponent<Player>().maxPopulation += 5;
+                        }
+
                     }
-                  
                 }
             }
+            
         }
         if(isBuilt)
         {

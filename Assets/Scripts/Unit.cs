@@ -23,7 +23,7 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-		if(isMoving)
+		if(isMoving && this.tag != "Villager")
         {
 			RaycastHit rayHit;
 			Vector3 rayOrigin = this.transform.position;

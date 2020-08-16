@@ -60,7 +60,7 @@ public class GameRTSController : MonoBehaviour
             }
 
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))// && !EventSystem.current.IsPointerOverGameObject())
         {
             player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(false);
             selectedUnitsList.Clear();
@@ -119,16 +119,27 @@ public class GameRTSController : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyUp("escape"))
         {
-            player.GetComponent<UIController>().VillagerUI.enabled = false;
-            selectedBuilding.GetComponent<BuildingScript>().isClicked = false;
-            player.GetComponent<UIController>().DeactivateUI(selectedBuilding);
-            selectedBuilding = null;
-            foreach (GameObject unit in playerUnits)
+            
+            player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(false);
+            
+            if(selectedBuilding != null)
             {
-                selectedUnitsList.Clear();
+                selectedBuilding.GetComponent<BuildingScript>().isClicked = false;
+                player.GetComponent<UIController>().DeactivateUI(selectedBuilding);
+                selectedBuilding = null;
             }
+            
+            
+            selectedUnitsList.Clear();
+            
+            
+        }
+        else if (selectedUnitsList.Count == 1 && selectedUnitsList[0].tag == "Villager")
+        {
+            player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(true);
+            
         }
         foreach (GameObject unit in playerUnits)
         {
@@ -138,10 +149,7 @@ public class GameRTSController : MonoBehaviour
         {
             unit.GetComponent<Unit>().isSelected = true;
         }
-        if(selectedUnitsList.Count == 1 && selectedUnitsList[0].tag == "Villager")
-        {
-            player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(true);
-        }
+        
 
 
 
