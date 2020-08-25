@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 486203352127559707}
   m_Layer: 9
   m_Name: Warehouse
-  m_TagString: Untagged
+  m_TagString: Warehouse
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,6 +51,8 @@ MonoBehaviour:
   isBuilt: 0
   isBeingBuilt: 0
   isClicked: 0
+  villagerArrived: 0
+  villager: {fileID: 0}
   buildingBar: {fileID: 3822256718944423268}
 --- !u!65 &486203352127559707
 BoxCollider:

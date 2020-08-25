@@ -18,13 +18,14 @@ public class BuildingScript : MonoBehaviour
 
     public bool isClicked = false;
 
-    public bool isWaitingForVillager;
+    public bool villagerArrived;
 
     public GameObject villager;
 
     private float timer = 0.2f;
 
-    private GameObject player;
+    private GameObject player1;
+    private GameObject player2;
 
     public Image buildingBar;
 
@@ -35,8 +36,9 @@ public class BuildingScript : MonoBehaviour
         buildingParts = this.transform.GetChild(0).gameObject.GetComponentsInChildren<Transform>();
         canBePlaced = true;
         health = 1;
-        player = GameObject.FindGameObjectWithTag("Player");
-        isWaitingForVillager = true;
+        player1 = GameObject.FindGameObjectWithTag("Player1");
+        player2 = GameObject.FindGameObjectWithTag("Player2");
+        //isWaitingForVillager = true;
         //buildingBar = transform.GetChild(0).GetComponent<Image>();
 
 
@@ -61,9 +63,9 @@ public class BuildingScript : MonoBehaviour
             
             this.transform.GetChild(1).gameObject.SetActive(true);
             this.transform.GetChild(0).gameObject.SetActive(false);
-            if(villager != null && villager.GetComponent<Villager>().there)
+            if(villagerArrived)
             {
-                Debug.Log("lalala");
+                
                 timer -= Time.deltaTime;
                 if (timer < 0)
                 {
@@ -74,10 +76,10 @@ public class BuildingScript : MonoBehaviour
                     {
                         isBeingBuilt = false;
                         isBuilt = true;
-                        //villager.GetComponent<Villager>().there = false;
+                        
                         if (this.gameObject.tag == "House")
                         {
-                            player.GetComponent<Player>().maxPopulation += 5;
+                            player1.GetComponent<Player>().maxPopulation += 5;
                         }
 
                     }

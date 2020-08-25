@@ -38,9 +38,9 @@ public class GameRTSController : MonoBehaviour
     void Update()
 
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            if(EventSystem.current.currentSelectedGameObject == null && selectedBuilding != null)
+            if(selectedBuilding != null && EventSystem.current.currentSelectedGameObject == null)
             {
                 selectedBuilding.GetComponent<BuildingScript>().isClicked = false;
                 player.GetComponent<UIController>().DeactivateUI(selectedBuilding);
@@ -50,18 +50,21 @@ public class GameRTSController : MonoBehaviour
 
             startPosition = Grid.GetMouseWorldPosition();
             startUIPosition = Input.mousePosition;
-            foreach (GameObject unit in selectedUnitsList)
-            {
+            
+                foreach (GameObject unit in selectedUnitsList)
+                {
 
-                //izklopi indikator enotam, ki so bile prej izbrane
-                if (EventSystem.current.IsPointerOverGameObject())
-                    return;
-                player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(false);
-            }
+                    //izklopi indikator enotam, ki so bile prej izbrane
+
+                    player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(false);
+                }
+            
+            
 
         }
-        if (Input.GetMouseButtonUp(0))// && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
         {
+            
             player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(false);
             selectedUnitsList.Clear();
 
@@ -114,7 +117,7 @@ public class GameRTSController : MonoBehaviour
             
             foreach (GameObject unit in selectedUnitsList)
             {
-                unit.GetComponent<Unit>().TakeAction();
+                //unit.GetComponent<Unit>().TakeAction();
             }
 
         }
@@ -143,11 +146,11 @@ public class GameRTSController : MonoBehaviour
         }
         foreach (GameObject unit in playerUnits)
         {
-            unit.GetComponent<Unit>().isSelected = false;
+            unit.GetComponent<FSM>().selected = false;
         }
         foreach (GameObject unit in selectedUnitsList)
         {
-            unit.GetComponent<Unit>().isSelected = true;
+            unit.GetComponent<FSM>().selected = true;
         }
         
 

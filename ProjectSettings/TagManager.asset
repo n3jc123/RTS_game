@@ -8,7 +8,6 @@ TagManager:
   - Water
   - Barracks
   - House
-  - Werehouse
   - Stables
   - Townhall
   - Unit
@@ -20,6 +19,10 @@ TagManager:
   - Stone
   - Farm
   - Mountain
+  - Player1
+  - Player2
+  - Warehouse
+  - Werehouse
   layers:
   - Default
   - TransparentFX

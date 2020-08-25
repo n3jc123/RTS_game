@@ -11,7 +11,9 @@ public class BuildingManager : MonoBehaviour
 
     public GameObject[] buildings;
 
-    public Player player;
+    public Player player1;
+
+    public Player player2;
 
     private GameObject currentBuilding;
 
@@ -28,6 +30,7 @@ public class BuildingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (currentBuilding != null && !currentBuilding.GetComponent<BuildingScript>().isBuilt)
         {
             var currentMousePosition = grid.GetTileCenterPosition();
@@ -54,11 +57,7 @@ public class BuildingManager : MonoBehaviour
                 worldChanged = true;
                 //GameObject.Find("AStar").GetComponent<PathfindingAStar>().UpdateGrid();
             }
-            if (villagerBuilding.GetComponent<Villager>().there)
-            {
-                Debug.Log("lololo");
-                
-            }
+            
 
             if (Input.GetMouseButtonDown(1))
             {
@@ -80,49 +79,50 @@ public class BuildingManager : MonoBehaviour
         {
             
             currentBuilding.transform.position = mousePosition;
-            villagerBuilding.GetComponent<Villager>().target = new Vector3(mousePosition.x, mousePosition.y, mousePosition.z + 5);
-            villagerBuilding.GetComponent<Villager>().isBuilding = true;
+            //villagerBuilding.GetComponent<Villager>().target = new Vector3(mousePosition.x, mousePosition.y, mousePosition.z + 5);
+            //villagerBuilding.GetComponent<Villager>().isBuilding = true;
             //villagerBuilding.GetComponent<Villager>().isMoving = true;
-            currentBuilding.GetComponent<BuildingScript>().villager = villagerBuilding;
+            //currentBuilding.GetComponent<BuildingScript>().villager = villagerBuilding;
             buildingScript.isBeingBuilt = true;
-            
-            
-            
 
-
-
+            villagerBuilding.GetComponent<BuildScript>().target = mousePosition;
+            villagerBuilding.GetComponent<BuildScript>().building = currentBuilding;
 
 
             changeColor(Color.white);
             if(currentBuilding != null && currentBuilding.tag == "House")
             {
-                player.wood -= 150;
-                player.AddBuilding(Instantiate(currentBuilding));
+                player1.wood -= 150;
+                player1.AddBuilding(currentBuilding);
                 
             }
             else if(currentBuilding.tag == "Warehouse")
             {
-                player.food -= 100;
-                player.wood -= 200;
+                player1.food -= 100;
+                player1.wood -= 200;
+                player1.AddBuilding(currentBuilding);
             }
             else if(currentBuilding.tag == "Townhall")
             {
-                player.food -= 300;
-                player.wood -= 300;
-                player.wood -= 300;
-                player.wood -= 300;
+                player1.food -= 300;
+                player1.wood -= 300;
+                player1.wood -= 300;
+                player1.wood -= 300;
+                player1.AddBuilding(currentBuilding);
             }
             else if (currentBuilding.tag == "Barracks")
             {
-                player.food -= 100;
-                player.wood -= 250;
-                player.gold -= 100;
+                player1.food -= 100;
+                player1.wood -= 250;
+                player1.gold -= 100;
+                player1.AddBuilding(currentBuilding);
             }
             else if (currentBuilding.tag == "Stables")
             {
-                player.food -= 100;
-                player.wood -= 300;
-                player.gold -= 150;
+                player1.food -= 100;
+                player1.wood -= 300;
+                player1.gold -= 150;
+                player1.AddBuilding(currentBuilding);
             }
             
             currentBuilding = null;
@@ -133,10 +133,17 @@ public class BuildingManager : MonoBehaviour
     public void BuildingPlacement(string name)
     {
         
-        villagerBuilding = GameObject.Find("GameRTSController").GetComponent<GameRTSController>().selectedUnitsList[0];
-        Debug.Log(villagerBuilding.GetComponent<Villager>().there);
         
-        if (name == "House" && player.wood >= 150)
+        villagerBuilding = GameObject.Find("GameRTSController").GetComponent<GameRTSController>().selectedUnitsList[0];
+        if (villagerBuilding.GetComponent<FSM>().building)
+        {
+            return;
+        }
+        villagerBuilding.GetComponent<FSM>().building = true;
+
+
+
+        if (name == "House" && player1.wood >= 150)
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[0]); //house
@@ -146,7 +153,7 @@ public class BuildingManager : MonoBehaviour
             changeColor(Color.green);
             
         }
-        if (name == "Warehouse" && player.wood >= 200 && player.food >= 100)
+        if (name == "Warehouse" && player1.wood >= 200 && player1.food >= 100)
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[1]); //warehouse
@@ -154,7 +161,7 @@ public class BuildingManager : MonoBehaviour
             changeColor(Color.green);
             
         }
-        if (name == "Townhall" && player.wood >= 300 && player.gold >= 300 && player.stone >= 300 && player.food >= 300)
+        if (name == "Townhall" && player1.wood >= 300 && player1.gold >= 300 && player1.stone >= 300 && player1.food >= 300)
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[2]); //townhall
@@ -162,7 +169,7 @@ public class BuildingManager : MonoBehaviour
             changeColor(Color.green);
             
         }
-        if (name == "Barracks" && player.wood >= 250 && player.gold >= 100 && player.food >= 100)
+        if (name == "Barracks" && player1.wood >= 250 && player1.gold >= 100 && player1.food >= 100)
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[3]); //barracks
@@ -170,7 +177,7 @@ public class BuildingManager : MonoBehaviour
             changeColor(Color.green);
             
         }
-        if (name == "Stables" && player.wood >= 300 && player.gold >= 150 && player.food >= 100)
+        if (name == "Stables" && player1.wood >= 300 && player1.gold >= 150 && player1.food >= 100)
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[4]); //stables

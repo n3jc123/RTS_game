@@ -7,7 +7,8 @@ public class Resource : MonoBehaviour
     private int amount = 1510;
     private float timer = 0.5f;
     
-    private GameObject player;
+    private GameObject player1;
+    private GameObject player2;
     private int villagersGathering = 0;
     
     
@@ -16,14 +17,12 @@ public class Resource : MonoBehaviour
     void Start()
     {
         
-        player = GameObject.Find("Player");
+        player1 = GameObject.Find("Player1");
+        player2 = GameObject.Find("Player2");
         Debug.Log(this.transform.GetChild(0).name);
         Debug.Log(this.transform.GetChild(1).name);
 
         this.transform.GetChild(1).gameObject.SetActive(false);
-        //Debug.Log("sparse: " + sparseForrest.transform.position);
-        //Debug.Log(gameObject.transform.position);
-        //sparseForrest.SetActive(false);
 
 
 
@@ -48,9 +47,7 @@ public class Resource : MonoBehaviour
                 {
                     
                     timer = 0.5f / villagersGathering;
-                    amount--;
-                    player.GetComponent<Player>().wood++;
-                    
+                    amount--; 
                 }
             }
             else if (this.gameObject.tag == "Gold")
@@ -62,8 +59,6 @@ public class Resource : MonoBehaviour
 
                     timer = 0.5f / villagersGathering;
                     amount--;
-                    player.GetComponent<Player>().gold++;
-
                 }
             }
             else if (this.gameObject.tag == "Farm")
@@ -72,11 +67,8 @@ public class Resource : MonoBehaviour
                 timer -= Time.deltaTime;
                 if (timer < 0)
                 {
-
                     timer = 0.5f / villagersGathering;
                     amount--;
-                    player.GetComponent<Player>().food++;
-
                 }
             }
             if (this.gameObject.tag == "Stone")
@@ -85,11 +77,8 @@ public class Resource : MonoBehaviour
                 timer -= Time.deltaTime;
                 if (timer < 0)
                 {
-
                     timer = 0.5f / villagersGathering;
                     amount--;
-                    player.GetComponent<Player>().stone++;
-
                 }
             }
 
@@ -105,15 +94,17 @@ public class Resource : MonoBehaviour
         }
     }
 
+    
     void OnTriggerEnter(Collider collision)
     {
 
-        if (collision.gameObject.tag == "Villager" && collision.gameObject.GetComponent<Villager>().isGathering)
+        if (collision.gameObject.tag == "Villager" && collision.gameObject.GetComponent<FSM>().gathering)
         {
             villagersGathering++;
             
         }
     }
+    
 
     void OnTriggerExit(Collider collision)
     {
