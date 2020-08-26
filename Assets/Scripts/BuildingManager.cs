@@ -21,11 +21,6 @@ public class BuildingManager : MonoBehaviour
 
     public bool worldChanged;
 
-    //private GameObject RTSController;
-
-    // Start is called before the first frame update
-
-
 
     // Update is called once per frame
     void Update()
@@ -49,22 +44,16 @@ public class BuildingManager : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                //GameObject villager = player.GetComponent<GameRTSController>().selectedUnitsList[0];
-                //villager.GetComponent<Villager>().target = currentMousePosition;
-                //villager.GetComponent<Villager>().GoBuild();
                 PlaceBuilding(currentMousePosition);
                 GameObject.Find("AStar").GetComponent<GridA>().UpdateGrid();
                 worldChanged = true;
-                //GameObject.Find("AStar").GetComponent<PathfindingAStar>().UpdateGrid();
             }
             
 
             if (Input.GetMouseButtonDown(1))
             {
-
                 Destroy(currentBuilding);
             }
-            //Debug.Log(villagerBuilding.GetComponent<Villager>().there);
             
 
 
@@ -79,10 +68,6 @@ public class BuildingManager : MonoBehaviour
         {
             
             currentBuilding.transform.position = mousePosition;
-            //villagerBuilding.GetComponent<Villager>().target = new Vector3(mousePosition.x, mousePosition.y, mousePosition.z + 5);
-            //villagerBuilding.GetComponent<Villager>().isBuilding = true;
-            //villagerBuilding.GetComponent<Villager>().isMoving = true;
-            //currentBuilding.GetComponent<BuildingScript>().villager = villagerBuilding;
             buildingScript.isBeingBuilt = true;
 
             villagerBuilding.GetComponent<BuildScript>().target = mousePosition;
@@ -147,9 +132,6 @@ public class BuildingManager : MonoBehaviour
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[0]); //house
-
-            //currentBuilding.GetComponent<BuildingScript>().unit = "Villager";
-
             changeColor(Color.green);
             
         }
@@ -157,7 +139,6 @@ public class BuildingManager : MonoBehaviour
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[1]); //warehouse
-            //currentBuilding = new Warehouse();
             changeColor(Color.green);
             
         }
@@ -165,7 +146,6 @@ public class BuildingManager : MonoBehaviour
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[2]); //townhall
-            //currentBuilding = new Building("Townhall");
             changeColor(Color.green);
             
         }
@@ -173,7 +153,6 @@ public class BuildingManager : MonoBehaviour
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[3]); //barracks
-            //currentBuilding = new Building("Barracks");
             changeColor(Color.green);
             
         }
@@ -181,7 +160,6 @@ public class BuildingManager : MonoBehaviour
         {
             Destroy(currentBuilding);
             currentBuilding = Instantiate(buildings[4]); //stables
-            //currentBuilding = new Building("Stables");
             changeColor(Color.green);
             
             
@@ -205,8 +183,6 @@ public class BuildingManager : MonoBehaviour
     {
         Vector3Int mesh = Vector3Int.FloorToInt(GetComponent<MeshRenderer>().bounds.size);
         Vector3Int scale = Vector3Int.FloorToInt(GetComponent<Transform>().localScale);
-        //RTSController = GameObject.Find("GameRTSController");
-
         grid = new Grid(mesh.x / 10, mesh.z / 10, 10, new Vector3(-mesh.x / 2, 0, -mesh.z / 2));
     }
 }

@@ -60,17 +60,7 @@ public class GridA : MonoBehaviour
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                /*
-                if(GetComponent<BuildingManager>().grid.GetValue(x, y) != "Empty")
-                {
-                    grid[x, y] = new Node(false, worldPoint, x, y);
-                }
-                else
-                {
-                    grid[x, y] = new Node(true, worldPoint, x, y);
-
-                }
-                */
+                
                 int movementPenalty = 0;
 
                 //raycast
@@ -101,19 +91,6 @@ public class GridA : MonoBehaviour
                 
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-
-                //TODO: robni resourci morajo biti walkable
-                /*
-                if(GameObject.Find("Ground").GetComponent<Grid>().GetValue(x, y) == "Empty")
-                {
-                    grid[x, y] = new Node(true, worldPoint, x, y);
-                }
-                else if(GameObject.Find("Ground").GetComponent<Grid>().GetValue(x, y) == "Empty")
-                {
-                    grid[x, y] = new Node(true, worldPoint, x, y);
-
-                }
-                */
 
                 int movementPenalty = 0;
 

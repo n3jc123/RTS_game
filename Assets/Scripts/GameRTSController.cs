@@ -113,11 +113,14 @@ public class GameRTSController : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            
-            
+
+            Vector3[] positionsList = CreatePositions(Grid.GetMouseWorldPosition(), selectedUnitsList.Count);
+            int index = 0;
             foreach (GameObject unit in selectedUnitsList)
             {
-                //unit.GetComponent<Unit>().TakeAction();
+                unit.GetComponent<FSM>().target = positionsList[index];
+                
+                index++;
             }
 
         }
@@ -254,6 +257,41 @@ public class GameRTSController : MonoBehaviour
         }
 
     }
+
+    private Vector3[] CreatePositions(Vector3 startPosition, int positionCount)
+    {
+        int x = (int)Math.Ceiling(Math.Log(positionCount, 2));
+        int y = x;
+        Vector3[] positionList = new Vector3[x * y];
+        if (positionCount > 2)
+        {
+
+
+            
+
+            
+            Debug.Log(Math.Ceiling(Math.Log(positionCount, 2)));
+            int index = 0;
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    Vector3 position = new Vector3(startPosition.x + i * 2, startPosition.y, startPosition.z + j * 2);
+                    positionList[index] = position;
+                    index++;
+                }
+            }
+        }
+        else
+        {
+            positionList = new Vector3[2];
+            positionList[0] = startPosition;
+            positionList[1] = new Vector3(startPosition.x + 1, startPosition.y, startPosition.z + 1);
+        }
+
+        return positionList;
+    }
+
 
 
 }

@@ -91,16 +91,16 @@ public class Player : MonoBehaviour
         switch(resourceName)
         {
             case "Wood":
-                wood += 6;
+                wood += 10;
                 break;
             case "Stone":
-                stone += 6;
+                stone += 10;
                 break;
             case "Food":
-                food += 6;
+                food += 10;
                 break;
             case "Gold":
-                gold += 6;
+                gold += 10;
                 break;
         }
             

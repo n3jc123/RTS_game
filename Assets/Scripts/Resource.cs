@@ -87,10 +87,6 @@ public class Resource : MonoBehaviour
         {
             this.transform.GetChild(0).gameObject.SetActive(false);
             this.transform.GetChild(1).gameObject.SetActive(true);
-            //sparseForrest.SetActive(true);
-            //Instantiate(resourceModel);
-            
-            
         }
     }
 
@@ -109,12 +105,9 @@ public class Resource : MonoBehaviour
     void OnTriggerExit(Collider collision)
     {
        
-        if (collision.gameObject.tag == "Villager")// && collision.gameObject.GetComponent<Villager>().isGathering)
+        if (collision.gameObject.tag == "Villager")
         {
             villagersGathering--;
-            //collision.gameObject.GetComponent<Villager>().isGathering = false;
-
-
         }
     }
 }

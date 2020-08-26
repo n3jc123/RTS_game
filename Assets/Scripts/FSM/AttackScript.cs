@@ -28,15 +28,11 @@ public class AttackScript : MonoBehaviour
     {
         if(!moving && !fighting)
         {
-			//PathRequestManager.RequestPath(this.transform.position, fsm.closestEnemy.transform.position, OnPathFound);
-
-				float step = speed * Time.deltaTime; // calculate distance to move
+				float step = speed * Time.deltaTime;
 				transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
 				Debug.Log("lalalaa");
 				moving = true;
-			
         }
-		//Vector3.Distance(other.position, transform.position);
 		if (Vector3.Distance(this.transform.position, target.transform.position) < 2f)
         {
 			moving = false;

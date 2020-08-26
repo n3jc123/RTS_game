@@ -32,7 +32,7 @@ public class MoveScript : MonoBehaviour
     {
         if(Input.GetMouseButtonUp(1) && fsm.selected)
         {
-			fsm.target = Grid.GetMouseWorldPosition();
+			//fsm.target = Grid.GetMouseWorldPosition();
 			PathRequestManager.RequestPath(transform.position, fsm.target, OnPathFound);
 			fsm.returningResource = false;
 		}
