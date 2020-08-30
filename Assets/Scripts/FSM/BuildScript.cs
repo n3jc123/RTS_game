@@ -10,7 +10,7 @@ public class BuildScript : MonoBehaviour
 	float speed = 20;
 	Vector3[] path;
 	int targetIndex;
-	public GameObject building;
+	//public GameObject building;
 
 	bool moving;
 	bool arrived;
@@ -19,6 +19,7 @@ public class BuildScript : MonoBehaviour
     {
 		fsm = gameObject.GetComponent<FSM>();
 		moving = false;
+		
 	}
 
     // Update is called once per frame
@@ -26,7 +27,7 @@ public class BuildScript : MonoBehaviour
     {
         if(target != Vector3.zero && !moving)
         {
-			if(building.tag == "Barracks")
+			if(fsm.buildingA.tag == "Barracks")
             {
 				PathRequestManager.RequestPath(transform.position, new Vector3(target.x + 6, target.y, target.z), OnPathFound);
 
@@ -38,10 +39,11 @@ public class BuildScript : MonoBehaviour
 
 		if(arrived)
         {
-			building.GetComponent<BuildingScript>().villagerArrived = true;
-			if(building.GetComponent<BuildingScript>().isBuilt)
+			fsm.buildingA.GetComponent<BuildingScript>().villagerArrived = true;
+			if(fsm.buildingA.GetComponent<BuildingScript>().isBuilt)
             {
 				fsm.building = false;
+
             }
         }
     }

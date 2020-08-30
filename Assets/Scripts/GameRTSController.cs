@@ -113,14 +113,35 @@ public class GameRTSController : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            Vector3[] positionsList = CreatePositions(Grid.GetMouseWorldPosition(), selectedUnitsList.Count);
-            int index = 0;
-            foreach (GameObject unit in selectedUnitsList)
+            if (Physics.Raycast(ray, out hit))
             {
-                unit.GetComponent<FSM>().target = positionsList[index];
+
+                Vector3 targetPosition = Grid.GetMouseWorldPosition();
+                Vector3[] positionsList = CreatePositions(targetPosition, selectedUnitsList.Count);
+                int index = 0;
+                if(hit.collider.transform.tag == "Forrest" || hit.collider.transform.tag == "Stone" || hit.collider.transform.tag == "Gold" || hit.collider.transform.tag == "Farm")
+                {
+                    foreach (GameObject unit in selectedUnitsList)
+                    {
+                        unit.GetComponent<FSM>().target = targetPosition;
+
+                        index++;
+                    }
+                }
+                else
+                {
+                    foreach (GameObject unit in selectedUnitsList)
+                    {
+                        
+                        unit.GetComponent<FSM>().target = positionsList[index];
+
+                        index++;
+                    }
+                }
                 
-                index++;
             }
 
         }
@@ -154,6 +175,7 @@ public class GameRTSController : MonoBehaviour
         foreach (GameObject unit in selectedUnitsList)
         {
             unit.GetComponent<FSM>().selected = true;
+            
         }
         
 

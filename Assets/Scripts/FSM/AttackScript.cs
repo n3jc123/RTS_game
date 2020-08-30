@@ -14,50 +14,79 @@ public class AttackScript : MonoBehaviour
 
 	bool fighting;
 	bool moving;
+	bool attackingBuilding;
 
 	float timer = 0.3f;
 	// Start is called before the first frame update
 	void Start()
-    {
-        fsm = gameObject.GetComponent<FSM>();
-        target = fsm.closestEnemy;
+	{
+		fsm = gameObject.GetComponent<FSM>();
+		
+		target = fsm.closestEnemy;
+		
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!moving && !fighting)
+		if(target != null)
         {
+			if (!moving && !fighting)
+			{
 				float step = speed * Time.deltaTime;
 				transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
 				Debug.Log("lalalaa");
 				moving = true;
-        }
-		if (Vector3.Distance(this.transform.position, target.transform.position) < 2f)
-        {
-			moving = false;
-			fighting = true;
-
-			timer -= Time.deltaTime;
-			if (timer < 0)
-			{
-				timer = 0.03f;
-				if (target != null)
-					target.GetComponent<FSM>().health -= fsm.attackDamage;
-				else
-					return;
 			}
-        }
-		else
-		{
-			fighting = false;
+			if (Vector3.Distance(this.transform.position, target.transform.position) < 2f)
+			{
+				moving = false;
+				fighting = true;
+
+				timer -= Time.deltaTime;
+				if (timer < 0)
+				{
+					timer = 0.1f;
+					if (target != null)
+						target.GetComponent<FSM>().health -= fsm.attackDamage;
+					else
+						return;
+				}
+			}
+			else
+			{
+				fighting = false;
+			}
+			if (this.transform.position != target.transform.position)
+			{
+				moving = false;
+			}
 		}
-		if (this.transform.position != target.transform.position)
+		else if(fsm.targetBuilding != null)
         {
-			moving = false;
-        }
-        
-    }
+			
+			if (Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) < 8f)
+			{
+				moving = false;
+				fighting = true;
+
+				timer -= Time.deltaTime;
+				if (timer < 0)
+				{
+					timer = 0.3f;
+					if (fsm.targetBuilding != null)
+					{
+						Debug.Log("building zgubla health");
+						attackingBuilding = false;
+						fsm.targetBuilding.GetComponent<BuildingScript>().health -= 1;// fsm.targetBuilding.GetComponent<BuildingScript>().health - (fsm.attackDamage / 10);
+					}
+					else
+						return;
+				}
+			}
+		}
+	}
 
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
 	{

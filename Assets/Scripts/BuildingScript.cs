@@ -14,7 +14,7 @@ public class BuildingScript : MonoBehaviour
 
     public bool isBeingBuilt = false;
 
-    private int health;
+    public int health;
 
     public bool isClicked = false;
 
@@ -27,6 +27,7 @@ public class BuildingScript : MonoBehaviour
     private GameObject player1;
     private GameObject player2;
 
+    public int team = 0;
     public Image buildingBar;
 
     // Start is called before the first frame update
@@ -35,9 +36,10 @@ public class BuildingScript : MonoBehaviour
         this.transform.GetChild(1).gameObject.SetActive(false);
         buildingParts = this.transform.GetChild(0).gameObject.GetComponentsInChildren<Transform>();
         canBePlaced = true;
-        health = 1;
+        
         player1 = GameObject.FindGameObjectWithTag("Player1");
         player2 = GameObject.FindGameObjectWithTag("Player2");
+        
         //isWaitingForVillager = true;
         //buildingBar = transform.GetChild(0).GetComponent<Image>();
 
@@ -87,11 +89,28 @@ public class BuildingScript : MonoBehaviour
             }
             
         }
-        if(isBuilt)
+        if (isBuilt)
         {
             this.transform.GetChild(0).gameObject.SetActive(true);
             this.transform.GetChild(1).gameObject.SetActive(false);
         }
+        
+        if (health < 0)
+        {
+            
+            if (team == 0)
+            {
+                player1.GetComponent<Player>().RemoveBuilding(this.gameObject);
+            }
+            else
+            {
+                player2.GetComponent<Player>().RemoveBuilding(this.gameObject);
+            }
+
+            DestroyImmediate(gameObject);
+        }
+        
+        
 
         
 

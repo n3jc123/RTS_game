@@ -85,18 +85,22 @@ public class Player : MonoBehaviour
     {
         buildingsList.Add(building);
     }
+    public void RemoveBuilding(GameObject building)
+    {
+        buildingsList.Remove(building);
+    }
 
     public void AddResource(string resourceName)
     {
         switch(resourceName)
         {
-            case "Wood":
+            case "Forrest":
                 wood += 10;
                 break;
             case "Stone":
                 stone += 10;
                 break;
-            case "Food":
+            case "Farm":
                 food += 10;
                 break;
             case "Gold":

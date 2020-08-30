@@ -71,7 +71,7 @@ public class BuildingManager : MonoBehaviour
             buildingScript.isBeingBuilt = true;
 
             villagerBuilding.GetComponent<BuildScript>().target = mousePosition;
-            villagerBuilding.GetComponent<BuildScript>().building = currentBuilding;
+            villagerBuilding.GetComponent<FSM>().buildingA = currentBuilding;
 
 
             changeColor(Color.white);

@@ -18,22 +18,38 @@ public class MoveScript : MonoBehaviour
 	void Start()
     {
         fsm = gameObject.GetComponent<FSM>();
-		if(!GetComponent<FSM>().building)
+		if(!fsm.building)
+        {
 			PathRequestManager.RequestPath(transform.position, fsm.target, OnPathFound);
+			Debug.Log(fsm.target);
+		}
+			
+
 		fsm.moving = true;
 		if(gameObject.tag == "Knight")
         {
 			speed = 25;
         }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonUp(1) && fsm.selected)
+		if(fsm.targetBuilding != null && Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) < 8f)
+        {
+			fsm.goingToBuilding = false;
+			fsm.attackingBuilding = true;
+        }
+        else
+        {
+			fsm.attackingBuilding = false;
+		}
+		if (Input.GetMouseButtonUp(1) && fsm.selected)
         {
 			//fsm.target = Grid.GetMouseWorldPosition();
 			PathRequestManager.RequestPath(transform.position, fsm.target, OnPathFound);
+			//fsm.targetBuilding = null;
 			fsm.returningResource = false;
 		}
 		else if(fsm.resourceAmount == 12)
@@ -44,7 +60,7 @@ public class MoveScript : MonoBehaviour
 			fsm.resourceAmount--;
 
 		}
-		else if(fsm.returningResource && Vector3.Distance(fsm.targetWarehouse, transform.position) < 7 && !resourceReturned)// fsm.targetWarehouse.x, fsm.targetWarehouse.y, fsm.targetWarehouse.z + 6) == transform.position)
+		else if(fsm.returningResource && Vector3.Distance(fsm.targetWarehouse, transform.position) < 9 && !resourceReturned)// fsm.targetWarehouse.x, fsm.targetWarehouse.y, fsm.targetWarehouse.z + 6) == transform.position)
         {
 			Debug.Log("vrnu sem resource");
 			fsm.resourceAmount = 0;
@@ -62,7 +78,8 @@ public class MoveScript : MonoBehaviour
 		if (Physics.Raycast(rayOrigin, ray, out rayHit, ray.magnitude))
 		{
 
-			if (rayHit.transform.tag == "Townhall" || rayHit.transform.tag == "Warehouse" || rayHit.transform.tag == "House" || rayHit.transform.tag == "Barracks" || rayHit.transform.tag == "Stables")
+			if ((rayHit.transform.tag == "Townhall" || rayHit.transform.tag == "Warehouse" || rayHit.transform.tag == "House" || rayHit.transform.tag == "Barracks"
+				|| rayHit.transform.tag == "Stables") && fsm.targetBuilding != null && rayHit.collider.gameObject != fsm.targetBuilding)
 			{
 				PathRequestManager.RequestPath(transform.position, fsm.target, OnPathFound);
 			}
@@ -105,6 +122,7 @@ public class MoveScript : MonoBehaviour
 				currentWaypoint = path[targetIndex];
 			}
 			this.transform.LookAt(currentWaypoint);
+			this.GetComponentInChildren<Canvas>().transform.rotation = Quaternion.Euler(0, 0, 0);
 
 			transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
 			yield return null;
