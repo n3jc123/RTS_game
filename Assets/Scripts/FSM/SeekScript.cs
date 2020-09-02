@@ -30,7 +30,7 @@ public class SeekScript : MonoBehaviour
             distance = Vector3.Distance(enemy.transform.position, transform.position);
             if(distance < aggroDistance)
             {
-                if(minDistance > distance)
+                if(minDistance >= distance)
                 {
                     minDistance = distance;
                     fsm.closestEnemy = enemy;

@@ -51,7 +51,11 @@ MonoBehaviour:
   canBePlaced: 0
   isBuilt: 0
   isBeingBuilt: 0
+  health: 0
   isClicked: 0
+  villagerArrived: 0
+  villager: {fileID: 0}
+  team: 0
   buildingBar: {fileID: 2457419610583620475}
 --- !u!65 &5189208314015685740
 BoxCollider:

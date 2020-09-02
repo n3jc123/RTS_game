@@ -21,9 +21,9 @@ public class Player : MonoBehaviour
 
     Text resources;
 
-    int team;
+    public int team;
 
-    void Start()
+    void Awake()
     {
         if(this.name == "Player1")
         {

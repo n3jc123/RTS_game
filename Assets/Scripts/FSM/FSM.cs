@@ -28,6 +28,8 @@ public class FSM : MonoBehaviour
     public bool attackingBuilding;
     public bool goingToBuilding;
 
+    public bool test;
+
 
     public string resource;
 
@@ -111,12 +113,20 @@ public class FSM : MonoBehaviour
                 targetEnemy = hit.collider.gameObject;
             }
             
-            if ((hit.collider.transform.tag == "Stables" || hit.collider.transform.tag == "House" || hit.collider.transform.tag == "Warehouse"
-                || hit.collider.transform.tag == "Barracks" || hit.collider.transform.tag == "Townhall") && Input.GetMouseButtonUp(1) && selected && team != hit.collider.gameObject.GetComponent<BuildingScript>().team)
+            if ((hit.collider.transform.tag == "Stables" || hit.collider.transform.tag == "House" || hit.collider.transform.tag == "Warehouse" || hit.collider.transform.tag == "Barracks" || hit.collider.transform.tag == "Townhall") && Input.GetMouseButtonUp(1) && selected && team != hit.collider.gameObject.GetComponent<BuildingScript>().team)
             {
                 Debug.Log("lololololo");
                 targetBuilding = hit.collider.gameObject;
-                target = new Vector3(targetBuilding.transform.position.x, targetBuilding.transform.position.y, targetBuilding.transform.position.z + 7);
+                if(hit.collider.transform.tag == "Barracks")
+                {
+                    target = new Vector3(targetBuilding.transform.position.x + 6, targetBuilding.transform.position.y, targetBuilding.transform.position.z);
+
+                }
+                else
+                {
+                    target = new Vector3(targetBuilding.transform.position.x, targetBuilding.transform.position.y, targetBuilding.transform.position.z + 6);
+
+                }
                 goingToBuilding = true;
                 
             }
@@ -128,11 +138,13 @@ public class FSM : MonoBehaviour
         }
 
         
-        if ((Input.GetMouseButtonUp(1) && selected && !attackingBuilding) || resourceAmount == 12 || returningResource || goingToBuilding)
+        if (((Input.GetMouseButtonUp(1) && selected && !attackingBuilding) || resourceAmount == 12 || returningResource || goingToBuilding) || test)
         {
             Debug.Log("nekaneakajnekaj");
             building = false;
+            test = false;
             ChangeState(UnitState.Move);
+            
         }
         else if (health < 1)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -36,7 +37,7 @@ public class MoveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if(fsm.targetBuilding != null && Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) < 8f)
+		if(fsm.targetBuilding != null && Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) <= 8f)
         {
 			fsm.goingToBuilding = false;
 			fsm.attackingBuilding = true;
@@ -117,6 +118,7 @@ public class MoveScript : MonoBehaviour
 					targetIndex = 0;
 					path = new Vector3[0];
 					fsm.moving = false;
+					
 					yield break;
 				}
 				currentWaypoint = path[targetIndex];

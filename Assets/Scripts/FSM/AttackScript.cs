@@ -66,7 +66,7 @@ public class AttackScript : MonoBehaviour
 		else if(fsm.targetBuilding != null)
         {
 			
-			if (Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) < 8f)
+			if (Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) <= 8f)
 			{
 				moving = false;
 				fighting = true;

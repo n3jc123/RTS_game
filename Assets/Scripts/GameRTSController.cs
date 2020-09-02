@@ -280,19 +280,13 @@ public class GameRTSController : MonoBehaviour
 
     }
 
-    private Vector3[] CreatePositions(Vector3 startPosition, int positionCount)
+    public Vector3[] CreatePositions(Vector3 startPosition, int positionCount)
     {
         int x = (int)Math.Ceiling(Math.Log(positionCount, 2));
         int y = x;
         Vector3[] positionList = new Vector3[x * y];
         if (positionCount > 2)
-        {
-
-
-            
-
-            
-            Debug.Log(Math.Ceiling(Math.Log(positionCount, 2)));
+        { 
             int index = 0;
             for (int i = 0; i < x; i++)
             {
