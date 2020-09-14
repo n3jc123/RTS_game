@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
+        //doloci ekipo igralcu
         if(this.name == "Player1")
         {
             team = 0;
@@ -33,39 +34,16 @@ public class Player : MonoBehaviour
         {
             team = 1;
         }
+
         maxPopulation = 10;
-        GameObject[] soldiers = GameObject.FindGameObjectsWithTag("Soldier");
-        GameObject[] knights = GameObject.FindGameObjectsWithTag("Knight");
-        GameObject[] villagers = GameObject.FindGameObjectsWithTag("Villager");
-
-        GameObject[] tempList = new GameObject[soldiers.Length + knights.Length + villagers.Length];
-        soldiers.CopyTo(tempList, 0);
-        knights.CopyTo(tempList, soldiers.Length);
-        villagers.CopyTo(tempList, knights.Length);
-
-        for (int i = 0; i < tempList.Length; i++)
-        {
-            if(tempList[i].GetComponent<FSM>().team == team)
-            {
-                unitsList.Add(tempList[i]);
-            }
-        }
         buildingsList.Add(mainTownhall);
-        
+        AddExistingUnitsToPlayer();
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
-        currentPopulation = unitsList.Count;
-        if(gameObject.name == "Player1")
-        {
-            resources = GameObject.Find("ResourcesText").GetComponent<Text>();
-            resources.text = "Gold: " + gold + "\nWood: " + wood + "\nStone: " + stone + "\nFood: " + food + "\nPopulation: " + currentPopulation + "/" + maxPopulation;
-        }
-        
-
+        UpdateUI();
     }
 
     public List<GameObject> getUnits()
@@ -90,6 +68,16 @@ public class Player : MonoBehaviour
         buildingsList.Remove(building);
     }
 
+    private void UpdateUI()
+    {
+        currentPopulation = unitsList.Count;
+        if (gameObject.name == "Player1")
+        {
+            resources = GameObject.Find("ResourcesText").GetComponent<Text>();
+            resources.text = "Gold: " + gold + "\nWood: " + wood + "\nStone: " + stone + "\nFood: " + food + "\nPopulation: " + currentPopulation + "/" + maxPopulation;
+        }
+    }
+    // doda surovino igralcu
     public void AddResource(string resourceName)
     {
         switch(resourceName)
@@ -109,4 +97,26 @@ public class Player : MonoBehaviour
         }
             
     }
+
+    //poisce vse obstoječe enote v svetu in jih doda igralcu
+    private void AddExistingUnitsToPlayer()
+    {
+        GameObject[] soldiers = GameObject.FindGameObjectsWithTag("Soldier");
+        GameObject[] knights = GameObject.FindGameObjectsWithTag("Knight");
+        GameObject[] villagers = GameObject.FindGameObjectsWithTag("Villager");
+
+        GameObject[] tempList = new GameObject[soldiers.Length + knights.Length + villagers.Length];
+        soldiers.CopyTo(tempList, 0);
+        knights.CopyTo(tempList, soldiers.Length);
+        villagers.CopyTo(tempList, knights.Length);
+
+        for (int i = 0; i < tempList.Length; i++)
+        {
+            if (tempList[i].GetComponent<FSM>().team == team)
+            {
+                unitsList.Add(tempList[i]);
+            }
+        }
+    }
+    
 }

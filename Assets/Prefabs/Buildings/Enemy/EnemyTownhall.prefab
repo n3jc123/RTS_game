@@ -64,12 +64,12 @@ MonoBehaviour:
   canBePlaced: 0
   isBuilt: 0
   isBeingBuilt: 0
-  health: 0
   isClicked: 0
   villagerArrived: 0
-  villager: {fileID: 0}
+  health: 0
   team: 1
-  buildingBar: {fileID: 579016284631224754}
+  villager: {fileID: 0}
+  healthBar: {fileID: 579016284631224754}
 --- !u!1 &2724647936300680552
 GameObject:
   m_ObjectHideFlags: 0

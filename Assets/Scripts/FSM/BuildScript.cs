@@ -10,11 +10,10 @@ public class BuildScript : MonoBehaviour
 	float speed = 20;
 	Vector3[] path;
 	int targetIndex;
-	//public GameObject building;
 
 	bool moving;
 	bool arrived;
-	// Start is called before the first frame update
+
 	void Start()
     {
 		fsm = gameObject.GetComponent<FSM>();
@@ -29,11 +28,10 @@ public class BuildScript : MonoBehaviour
         {
 			if(fsm.buildingA.tag == "Barracks")
             {
-				PathRequestManager.RequestPath(transform.position, new Vector3(target.x + 6, target.y, target.z), OnPathFound);
+				PathRequestManager.RequestPath(transform.position, new Vector3(target.x + 10, target.y, target.z), OnPathFound);
 
 			}
-			PathRequestManager.RequestPath(transform.position, new Vector3(target.x, target.y, target.z + 6), OnPathFound);
-			Debug.Log(target);
+			PathRequestManager.RequestPath(transform.position, new Vector3(target.x, target.y, target.z + 10), OnPathFound);
 			moving = true;
 		}
 
@@ -43,7 +41,6 @@ public class BuildScript : MonoBehaviour
 			if(fsm.buildingA.GetComponent<BuildingScript>().isBuilt)
             {
 				fsm.building = false;
-
             }
         }
     }

@@ -5,15 +5,15 @@ using UnityEngine;
 public class DieScript : MonoBehaviour
 {
     FSM fsm;
-    // Start is called before the first frame update
+
     void Start()
     {
         fsm = gameObject.GetComponent<FSM>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //ce enota umre se odstrani iz seznama nasprotnikov, seznama enot igralca in seznama izbranih enot.
         if (fsm.health < 1)
         {
             fsm.EnemyList.Remove(this.gameObject);
@@ -27,7 +27,6 @@ public class DieScript : MonoBehaviour
                 GameObject.Find("Player2").GetComponent<Player>().unitsList.Remove(this.gameObject);
                 GameObject.Find("GameRTSController").GetComponent<GameRTSController>().selectedUnitsList.Remove(this.gameObject);
             }
-
             DestroyImmediate(gameObject);
         }
     }

@@ -14,6 +14,8 @@ public class Grid
     private String[,] gridArray;
     private TextMesh[,] debugTextArray;
 
+    bool showGizmos = false;
+
 
     public Grid(int width, int height, int cellSize, Vector3 originPosition)
     {
@@ -24,6 +26,7 @@ public class Grid
         this.halfCellSize = cellSize / 2;
 
         gridArray = new String[width, height];
+        Debug.Log(width +"  "+ height);
         debugTextArray = new TextMesh[width, height];
 
         for(int x = 0; x < width; x++)
@@ -32,18 +35,25 @@ public class Grid
             {
                 
                 gridArray[x, y] = "Empty";
-                //debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x, y], null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 20, Color.white, TextAnchor.MiddleCenter);
                 checkColliders(x, y);
                 
-                
-                //Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
-                //Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
-                
+                if(showGizmos)
+                {
+                    Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
+                    Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
+                    debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x, y], null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 20, Color.white, TextAnchor.MiddleCenter);
+
+                }
+
+
             }
         }
-       
-        //Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
-        //Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
+        if(showGizmos)
+        {
+            Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
+            Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
+        }
+        
     }
 
     private Vector3 GetWorldPosition(int x, int y)
@@ -67,7 +77,8 @@ public class Grid
         if(x >= 0 && y >= 0 && x < width && y < height)
         {
             gridArray[x, y] = value;
-            //debugTextArray[x, y].text = value;
+            if(showGizmos)
+                debugTextArray[x, y].text = value;
         }
     }
 
@@ -75,7 +86,6 @@ public class Grid
     {
         int x, y;
         GetXY(worldPosition, out x, out y);
-        //Debug.Log(x + ", " + y);
         SetValue(x, y, value);
     }
 

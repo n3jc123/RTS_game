@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Barracks : MonoBehaviour
+public class PlayerR : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    public int numberOfUnits;
+    public int allUnits;
+    public Vector3 positionOfUnits;
     void Start()
     {
         

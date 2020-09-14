@@ -36,7 +36,6 @@ public class AttackScript : MonoBehaviour
 			{
 				float step = speed * Time.deltaTime;
 				transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
-				Debug.Log("lalalaa");
 				moving = true;
 			}
 			if (Vector3.Distance(this.transform.position, target.transform.position) < 2f)
@@ -66,7 +65,7 @@ public class AttackScript : MonoBehaviour
 		else if(fsm.targetBuilding != null)
         {
 			
-			if (Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) <= 8f)
+			if (Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) <= 10f)
 			{
 				moving = false;
 				fighting = true;
@@ -77,7 +76,6 @@ public class AttackScript : MonoBehaviour
 					timer = 0.3f;
 					if (fsm.targetBuilding != null)
 					{
-						Debug.Log("building zgubla health");
 						attackingBuilding = false;
 						fsm.targetBuilding.GetComponent<BuildingScript>().health -= 1;// fsm.targetBuilding.GetComponent<BuildingScript>().health - (fsm.attackDamage / 10);
 					}

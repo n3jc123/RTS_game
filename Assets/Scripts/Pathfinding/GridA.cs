@@ -25,13 +25,14 @@ public class GridA : MonoBehaviour
 
     void Awake()
     {
+        
         GameObject.Find("Ground").GetComponent<BuildingManager>().CreateGrid();
         GameObject.Find("Ground").GetComponent<MapGeneration>().GenerateMap();
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
 
-        foreach(TerrainType region in walkableRegions)
+        foreach (TerrainType region in walkableRegions)
         {
             walkableMask.value = walkableMask | region.terrainMask.value;
             walkableRegionsDict.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
@@ -52,7 +53,7 @@ public class GridA : MonoBehaviour
     public void CreateGrid()
     {
         grid = new Node[gridSizeX, gridSizeY];
-        Vector3 worldBottomLeft = transform.position - new Vector3(1, 0, 0) * gridWorldSize.x / 2 - new Vector3(0, 0, 1) * gridWorldSize.y / 2;
+        Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
 
         for(int x = 0; x < gridSizeX; x++)
         {
@@ -165,7 +166,7 @@ public class GridA : MonoBehaviour
                     if (path != null)
                         if (path.Contains(n))
                             Gizmos.color = Color.black;
-                    Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
+                    Gizmos.DrawCube(new Vector3(n.worldPosition.x, -nodeRadius + 0.2f, n.worldPosition.z), Vector3.one * (nodeDiameter - .1f));
                 }
             }
         }

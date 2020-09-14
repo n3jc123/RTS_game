@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 1207310804432513584}
   - component: {fileID: 5152005352397946348}
   - component: {fileID: 7370226386075235523}
-  - component: {fileID: 3509022106907642874}
-  - component: {fileID: 6340282574185882066}
+  - component: {fileID: 2793688497299780334}
   m_Layer: 0
   m_Name: Villager
   m_TagString: Villager
@@ -69,7 +68,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3509022106907642874
+--- !u!114 &2793688497299780334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,31 +77,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3186579718220997670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32c1248bf7b4edd4ab87b849cee52b5e, type: 3}
+  m_Script: {fileID: 11500000, guid: fd9a82f2d9093c049a230a9a69ef7362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {x: 0, y: 0, z: 0}
-  isSelected: 0
---- !u!114 &6340282574185882066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3186579718220997670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ab1b05455214a8468975b6265df800d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {x: 0, y: 0, z: 0}
-  isSelected: 0
-  gold: 0
-  wood: 0
-  stone: 0
-  food: 0
-  isGathering: 0
-  isBuilding: 0
 --- !u!1 &3226134730587382385
 GameObject:
   m_ObjectHideFlags: 0

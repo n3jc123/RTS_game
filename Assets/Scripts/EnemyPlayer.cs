@@ -13,7 +13,6 @@ public class EnemyPlayer : MonoBehaviour
     {
         player = gameObject.GetComponent<Player>();
         unitsList = player.getUnits();
-        Debug.Log(unitsList.Count);
     }
 
     // Update is called once per frame

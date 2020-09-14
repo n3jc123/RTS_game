@@ -13,14 +13,28 @@ public class MapGeneration : MonoBehaviour
     public GameObject farm;
     public GameObject mountain;
 
+    private GameObject forrestParent;
+    private GameObject goldParent;
+    private GameObject stoneParent;
+    private GameObject farmParent;
+    private GameObject waterParent;
+    private GameObject mountainParent;
+
 
 
     private Color[] map;
 
+    public bool smallMap;
+
     // Start is called before the first frame update
     void Awake()
     {
-        
+        forrestParent = GameObject.Find("Forrests");
+        goldParent = GameObject.Find("Golds");
+        stoneParent = GameObject.Find("Stones");
+        farmParent = GameObject.Find("Farms");
+        waterParent = GameObject.Find("Waters");
+        mountainParent = GameObject.Find("Mountains");
     }
 
     // Update is called once per frame
@@ -34,7 +48,8 @@ public class MapGeneration : MonoBehaviour
         int randomRotation;
 
         map = bitMap.GetPixels();
-        //Debug.Log(map.Length);
+
+        GameObject spawnedObject;
         for (int x = 0; x < bitMap.width; x++)
         {
             for (int y = 0; y < bitMap.height; y++)
@@ -45,19 +60,16 @@ public class MapGeneration : MonoBehaviour
                 if (map[x + y * bitMap.width].r > 0.90f && map[x + y * bitMap.width].g > 0.90f && map[x + y * bitMap.width].b > 0.90f)
                 {
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Stone");
-                    Instantiate(stone, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    spawnedObject = Instantiate(stone, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    if (!smallMap)
+                        spawnedObject.transform.parent = stoneParent.transform;
                 }
-                /*else if (map[x + y * bitMap.width].g < 0.90f && map[x + y * bitMap.width].g > 0.80f)
-                {
-                    GetComponent<BuildingManager>().grid.SetValue(x, y, "Forrest");
-
-                    GameObject forrestEdge = Instantiate(forrest, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
-                    forrestEdge.layer = 0;
-                }
-                */
+                
                 else if (map[x + y * bitMap.width].g > 0.45f && map[x + y * bitMap.width].g < 0.55f && map[x + y * bitMap.width].r > 0.45f && map[x + y * bitMap.width].r < 0.55f)
                 {
-                    Instantiate(mountain, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    spawnedObject = Instantiate(mountain, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    if (!smallMap)
+                        spawnedObject.transform.parent = mountainParent.transform;
                     for (int i = -5; i < 6; i++)
                     {
                         for (int j = -5; j < 6; j++)
@@ -67,28 +79,38 @@ public class MapGeneration : MonoBehaviour
                         }
 
                     }
+                    
 
                 }
                 else if (map[x + y * bitMap.width].g > 0.90f && map[x + y * bitMap.width].r > 0.90f)
                 {
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Gold");
-                    Instantiate(gold, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    spawnedObject = Instantiate(gold, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    if (!smallMap)
+                        spawnedObject.transform.parent = goldParent.transform;
                 }
                 else if (map[x + y * bitMap.width].g > 0.90f)
                 {
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Forrest");
-                    Instantiate(forrest, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    spawnedObject = Instantiate(forrest, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    if(!smallMap)
+                        spawnedObject.transform.parent = forrestParent.transform;
                 }
 
                 else if (map[x + y * bitMap.width].r > 0.90f)
                 {
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Farm");
-                    Instantiate(farm, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.identity);
+                    spawnedObject = Instantiate(farm, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.identity);
+                    if (!smallMap)
+                        spawnedObject.transform.parent = farmParent.transform;
+
                 }
                 else if (map[x + y * bitMap.width].b > 0.90f)
                 {
                     GetComponent<BuildingManager>().grid.SetValue(x, y, "Water");
-                    Instantiate(water, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    spawnedObject = Instantiate(water, GetComponent<BuildingManager>().grid.GetWorldCenterPosition(x, y), Quaternion.Euler(0, 90 * randomRotation, 0));
+                    if (!smallMap)
+                        spawnedObject.transform.parent = waterParent.transform;
                 }
 
 

@@ -7,7 +7,6 @@ using UnityEngine.Experimental.Rendering;
 public class MoveScript : MonoBehaviour
 {
     FSM fsm;
-	//public Vector3 target;
 	
 	float speed = 20;
 	Vector3[] path;
@@ -15,14 +14,13 @@ public class MoveScript : MonoBehaviour
 
 	bool resourceReturned;
 	
-	// Start is called before the first frame update
 	void Start()
     {
         fsm = gameObject.GetComponent<FSM>();
 		if(!fsm.building)
         {
 			PathRequestManager.RequestPath(transform.position, fsm.target, OnPathFound);
-			Debug.Log(fsm.target);
+			Debug.Log("grem na " + fsm.target);
 		}
 			
 
@@ -37,7 +35,8 @@ public class MoveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if(fsm.targetBuilding != null && Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) <= 8f)
+		//preverimo ce je enota napadla zgradbo
+		if(fsm.targetBuilding != null && Vector3.Distance(this.transform.position, fsm.targetBuilding.transform.position) <= 10f)
         {
 			fsm.goingToBuilding = false;
 			fsm.attackingBuilding = true;
@@ -48,22 +47,20 @@ public class MoveScript : MonoBehaviour
 		}
 		if (Input.GetMouseButtonUp(1) && fsm.selected)
         {
-			//fsm.target = Grid.GetMouseWorldPosition();
 			PathRequestManager.RequestPath(transform.position, fsm.target, OnPathFound);
-			//fsm.targetBuilding = null;
+			
 			fsm.returningResource = false;
 		}
-		else if(fsm.resourceAmount == 12)
+		else if(fsm.resourceAmount == 10)
         {
 			fsm.targetWarehouse = GetClosestWarehouse();
-			PathRequestManager.RequestPath(transform.position, new Vector3(fsm.targetWarehouse.x, fsm.targetWarehouse.y, fsm.targetWarehouse.z + 6), OnPathFound);
+			PathRequestManager.RequestPath(transform.position, new Vector3(fsm.targetWarehouse.x, fsm.targetWarehouse.y, fsm.targetWarehouse.z + 10), OnPathFound);
 			fsm.returningResource = true;
-			fsm.resourceAmount--;
+			fsm.resourceAmount = fsm.resourceAmount - 1;
 
 		}
-		else if(fsm.returningResource && Vector3.Distance(fsm.targetWarehouse, transform.position) < 9 && !resourceReturned)// fsm.targetWarehouse.x, fsm.targetWarehouse.y, fsm.targetWarehouse.z + 6) == transform.position)
+		else if(fsm.returningResource && Vector3.Distance(fsm.targetWarehouse, transform.position) <= 13 && !resourceReturned)
         {
-			Debug.Log("vrnu sem resource");
 			fsm.resourceAmount = 0;
 			fsm.player.AddResource(fsm.resource);
 			resourceReturned = true;
@@ -71,11 +68,10 @@ public class MoveScript : MonoBehaviour
 
 		}
 
+		//ce se na poti enote pojavi zgradba, zahteva enota novo pot
 		RaycastHit rayHit;
 		Vector3 rayOrigin = this.transform.position;
 		Vector3 ray = this.transform.forward * 5;
-
-
 		if (Physics.Raycast(rayOrigin, ray, out rayHit, ray.magnitude))
 		{
 
@@ -149,10 +145,9 @@ public class MoveScript : MonoBehaviour
 	}
 
 	
-
+	//ko enota vstopi v resource se ji zmanjsa hitrost in kateri resource nabira
 	public void OnTriggerEnter(Collider collider)
 	{
-
 		if (collider.gameObject.layer == 11)
 		{
 			speed = 4;
@@ -162,14 +157,12 @@ public class MoveScript : MonoBehaviour
 				fsm.resource = collider.tag;
 				fsm.returningResource = false;
 			}
-			
-
 		}
 	}
 
+	//ko enota zapusti resource se spremeni hitrost na normalno in neha nabirat
 	public void OnTriggerExit(Collider collider)
 	{
-
 		if (collider.gameObject.layer == 11)
 		{
 			speed = 20;

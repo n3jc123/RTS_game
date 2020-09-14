@@ -5,26 +5,13 @@ using UnityEngine;
 public class Resource : MonoBehaviour
 {
     private int amount = 1510;
-    private float timer = 0.5f;
-    
-    private GameObject player1;
-    private GameObject player2;
     private int villagersGathering = 0;
-    
-    
-    
-    // Start is called before the first frame update
+
+    private float timer = 0.5f;
+
     void Start()
     {
-        
-        player1 = GameObject.Find("Player1");
-        player2 = GameObject.Find("Player2");
-        Debug.Log(this.transform.GetChild(0).name);
-        Debug.Log(this.transform.GetChild(1).name);
-
         this.transform.GetChild(1).gameObject.SetActive(false);
-
-
 
     }
 

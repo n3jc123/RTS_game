@@ -38,7 +38,7 @@ public class GameRTSController : MonoBehaviour
     void Update()
 
     {
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0))// && !EventSystem.current.IsPointerOverGameObject())
         {
             if(selectedBuilding != null && EventSystem.current.currentSelectedGameObject == null)
             {
@@ -62,7 +62,7 @@ public class GameRTSController : MonoBehaviour
             
 
         }
-        if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonUp(0))// && !EventSystem.current.IsPointerOverGameObject())
         {
             
             player.GetComponent<UIController>().VillagerUI.gameObject.SetActive(false);

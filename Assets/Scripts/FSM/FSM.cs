@@ -9,9 +9,8 @@ using UnityEngine.UI;
 public class FSM : MonoBehaviour
 {
     public int team;
-    //public bool selected;
 
-    //links to the different behaviour components
+    //links to the different behaviour scripts
     public IdleScript idle;
     public SeekScript seek;
     public AttackScript attack;
@@ -102,45 +101,11 @@ public class FSM : MonoBehaviour
     {
 
         UpdateHealthBar();
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-
-            if ((hit.collider.transform.tag == "Villager" || hit.collider.transform.tag == "Soldier" || hit.collider.transform.tag == "Knight") && Input.GetMouseButtonUp(1))
-            {
-                targetEnemy = hit.collider.gameObject;
-            }
-            
-            if ((hit.collider.transform.tag == "Stables" || hit.collider.transform.tag == "House" || hit.collider.transform.tag == "Warehouse" || hit.collider.transform.tag == "Barracks" || hit.collider.transform.tag == "Townhall") && Input.GetMouseButtonUp(1) && selected && team != hit.collider.gameObject.GetComponent<BuildingScript>().team)
-            {
-                Debug.Log("lololololo");
-                targetBuilding = hit.collider.gameObject;
-                if(hit.collider.transform.tag == "Barracks")
-                {
-                    target = new Vector3(targetBuilding.transform.position.x + 6, targetBuilding.transform.position.y, targetBuilding.transform.position.z);
-
-                }
-                else
-                {
-                    target = new Vector3(targetBuilding.transform.position.x, targetBuilding.transform.position.y, targetBuilding.transform.position.z + 6);
-
-                }
-                goingToBuilding = true;
-                
-            }
-            
-        }
-        if(Input.GetMouseButtonDown(1))
-        {
-            attackingBuilding = false;
-        }
+        CheckAttack();
 
         
-        if (((Input.GetMouseButtonUp(1) && selected && !attackingBuilding) || resourceAmount == 12 || returningResource || goingToBuilding) || test)
+        if (((Input.GetMouseButtonUp(1) && selected && !attackingBuilding) || resourceAmount == 10 || returningResource || goingToBuilding) || test)
         {
-            Debug.Log("nekaneakajnekaj");
             building = false;
             test = false;
             ChangeState(UnitState.Move);
@@ -152,7 +117,7 @@ public class FSM : MonoBehaviour
         }
         
 
-        else if ((this.tag == "Knight" || this.tag == "Soldier") && !moving && (closestEnemy != null || attackingBuilding))// || targetBuilding != null))
+        else if ((this.tag == "Knight" || this.tag == "Soldier") && !moving && (closestEnemy != null || attackingBuilding))
         {
             ChangeState(UnitState.Attack);
         }
@@ -305,5 +270,44 @@ public class FSM : MonoBehaviour
 
         healthBar.fillAmount = health / 100f;
     }
+
+    private void CheckAttack()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+
+            if ((hit.collider.transform.tag == "Villager" || hit.collider.transform.tag == "Soldier" || hit.collider.transform.tag == "Knight") && Input.GetMouseButtonUp(1))
+            {
+                targetEnemy = hit.collider.gameObject;
+            }
+
+            if ((hit.collider.transform.tag == "Stables" || hit.collider.transform.tag == "House" || hit.collider.transform.tag == "Warehouse" || hit.collider.transform.tag == "Barracks" ||
+                hit.collider.transform.tag == "Townhall") && Input.GetMouseButtonUp(1) && selected && team != hit.collider.gameObject.GetComponent<BuildingScript>().team)
+            {
+                targetBuilding = hit.collider.gameObject;
+                if (hit.collider.transform.tag == "Barracks")
+                {
+                    target = new Vector3(targetBuilding.transform.position.x + 10, targetBuilding.transform.position.y, targetBuilding.transform.position.z);
+                }
+                else
+                {
+                    target = new Vector3(targetBuilding.transform.position.x, targetBuilding.transform.position.y, targetBuilding.transform.position.z + 10);
+                }
+                goingToBuilding = true;
+
+            }
+
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            attackingBuilding = false;
+        }
+    }
     
 }
+
+
+

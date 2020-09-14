@@ -27,7 +27,7 @@ public class Node : IHeapItem<Node>
         worldPosition = _worldPos;
         gridX = _gridX;
         gridY = _gridY;
-        dist = 100000; //moglo bi bit int.maxValue
+        dist = 100000;
         movementPenalty = _penalty;
     }
 

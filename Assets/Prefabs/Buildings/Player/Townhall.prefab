@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1609892744185123185}
   - component: {fileID: 1435369776105682802}
   - component: {fileID: 7152919496175211475}
+  - component: {fileID: 2043217528092964990}
   m_Layer: 9
-  m_Name: Townhall 1
+  m_Name: Townhall
   m_TagString: Townhall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,8 +66,26 @@ MonoBehaviour:
   isBeingBuilt: 0
   isClicked: 0
   villagerArrived: 0
+  health: 0
+  team: 0
   villager: {fileID: 0}
-  buildingBar: {fileID: 6052438210919413276}
+  healthBar: {fileID: 6052438210919413276}
+--- !u!54 &2043217528092964990
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6236026778181198595}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &5189144606166420676
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -45,7 +45,11 @@ public class BuildingManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 PlaceBuilding(currentMousePosition);
+                
                 GameObject.Find("AStar").GetComponent<GridA>().UpdateGrid();
+                
+                
+                
                 worldChanged = true;
             }
             
@@ -117,8 +121,8 @@ public class BuildingManager : MonoBehaviour
 
     public void BuildingPlacement(string name)
     {
-        
-        
+
+        Debug.Log("sdhfldslaksdj");
         villagerBuilding = GameObject.Find("GameRTSController").GetComponent<GameRTSController>().selectedUnitsList[0];
         if (villagerBuilding.GetComponent<FSM>().building)
         {
