@@ -6,7 +6,7 @@ using CodeMonkey.Utils;
 public class RTAB : MonoBehaviour
 {
 
-	public Transform seeker, target;
+	public Transform seeker, target, gold, warehouse;
 	public bool pathFound;
 	GridB grid;
 
@@ -45,6 +45,7 @@ public class RTAB : MonoBehaviour
 		
 		openSet.Add(startNode);
 		NodeB node = openSet[0];
+		node.goldAcquired = false;
 
 		while (openSet.Count > 0 && !pathFound)
 		{
@@ -70,7 +71,7 @@ public class RTAB : MonoBehaviour
 			}
 
 			//za izbrano vozlisce pregledamo nejgove sosede
-			List<NodeB> neighbours = grid.GetNeighbours(node);
+			List<NodeB> neighbours = grid.GetNeighbours1(node);
 			
 			foreach (NodeB neighbour in neighbours)
 			{
@@ -81,11 +82,11 @@ public class RTAB : MonoBehaviour
 				}
 
 
-				int newCostToNeighbour = GetDistance(node, neighbour);
+				int newCostToNeighbour = 10;
 				if (newCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
 				{
-					neighbour.gCost += newCostToNeighbour;
-					neighbour.hCost = GetDistance(neighbour, targetNode);
+					neighbour.gCost = newCostToNeighbour;
+					neighbour.hCost = evaluate(neighbour);
 					//neighbour.parent = node;
 
 					if (!openSet.Contains(neighbour))
@@ -104,7 +105,7 @@ public class RTAB : MonoBehaviour
 			UtilsClass.CreateWorldText("G: " + node.gCost + "\nH: " + node.hCost + "\nF: " + node.fCost, null, node.worldPosition, 20, Color.white, TextAnchor.MiddleCenter);
 			seeker.position = node.worldPosition;
 
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.5f);
 		}
 		
 
@@ -138,6 +139,28 @@ public class RTAB : MonoBehaviour
 		if (dstX > dstY)
 			return 14 * dstY + 10 * (dstX - dstY);
 		return 14 * dstX + 10 * (dstY - dstX);
+	}
+
+	int evaluate(NodeB node)
+    {
+		NodeB goldNode = grid.NodeFromWorldPoint(gold.position);
+		NodeB warehouseNode = grid.NodeFromWorldPoint(warehouse.position);
+		if(seeker.GetComponent<Villager>().goldAcquired)
+        {
+			if (GetDistance(node, warehouseNode) <= 10)
+			{
+				seeker.GetComponent<Villager>().goldAcquired = false;
+			}
+			return GetDistance(node, warehouseNode);
+        }
+        else
+        {
+			if(GetDistance(node, goldNode) <= 10)
+            {
+				seeker.GetComponent<Villager>().goldAcquired = true;
+            }
+			return GetDistance(node, goldNode);
+		}
 	}
 
 	int SecondMin(List<NodeB> neighbors)
@@ -260,5 +283,7 @@ public class RTAB : MonoBehaviour
 		}
 		return 0;
 	}
+
+	
 
 }
